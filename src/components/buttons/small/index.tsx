@@ -49,7 +49,7 @@ const Wrapper = styled.button<LoadingProps>(({ isLoading }) => [
 
 const TextWrapper = styled.div<LoadingProps>(({ isLoading }) => [
   tw`
-    font-sb-12 text-white
+    font-r-12 text-white
     disabled:(text-gray5)
   `,
   isLoading && tw`opacity-0`,
