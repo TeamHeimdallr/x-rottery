@@ -28,7 +28,7 @@ const Wrapper = tw.div`
 `;
 
 const TextWrapper = tw.div`
-  w-76 h-84 flex-center
+  w-76 h-84 pb-2 flex-center
 `;
 
 const Text = styled.div(() => [

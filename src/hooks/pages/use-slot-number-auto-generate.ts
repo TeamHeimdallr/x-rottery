@@ -1,24 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 
+import { SEED } from '~/constants';
+
 export const NUM_LENGTH = 6;
-export const SEED = [
-  '0',
-  '1',
-  '2',
-  '3',
-  '4',
-  '5',
-  '6',
-  '7',
-  '8',
-  '9',
-  'A',
-  'B',
-  'C',
-  'D',
-  'E',
-  'F',
-];
 
 export const useSlotNumberAutoGenerator = () => {
   const [result, setResult] = useState('');
