@@ -1,11 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { SEED } from '~/constants';
+import { useSlotNumberAutoGeneratorStore } from '~/states/components/slot-number-auto.generate';
 
 export const NUM_LENGTH = 6;
 
 export const useSlotNumberAutoGenerator = () => {
-  const [result, setResult] = useState('');
+  const { value, setValue, reset } = useSlotNumberAutoGeneratorStore();
 
   const delay = useRef<number>(1); // delay in ticks
   const tickCount = useRef<number>(10); // how many times it generates a number before moving on to the next
@@ -15,6 +16,11 @@ export const useSlotNumberAutoGenerator = () => {
   const position = useRef<number>(0);
 
   const numbersRef = useRef<(HTMLDivElement | null)[]>([]);
+
+  const result =
+    value.length === 6 && value.split('').every(v => SEED.includes(v.toUpperCase()))
+      ? value.toUpperCase()
+      : undefined;
 
   const tick = () => {
     frame.current++;
@@ -44,7 +50,7 @@ export const useSlotNumberAutoGenerator = () => {
     } else {
       // end
       const result = numbersRef.current.map(num => num?.innerHTML ?? '').join('');
-      setResult(result);
+      setValue(result);
 
       position.current = 0;
     }
@@ -53,7 +59,9 @@ export const useSlotNumberAutoGenerator = () => {
   useEffect(() => {
     return () => {
       numbersRef.current = [];
+      reset();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return { tick, numbersRef, result };

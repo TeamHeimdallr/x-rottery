@@ -1,38 +1,13 @@
-import { ChangeEvent, InputHTMLAttributes, useCallback, useEffect, useRef, useState } from 'react';
+import { InputHTMLAttributes } from 'react';
 import tw, { css, styled } from 'twin.macro';
 
 import { COLOR } from '~/assets/colors';
 import slotInputBg from '~/assets/images/slot-input-bg.png';
-import { SEED } from '~/constants';
+import { useSlotNumberManualInput } from '~/hooks/pages/use-slot-number-manual-input';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {}
 export const SlotNumberManualInput = ({ ...rest }: Props) => {
-  const numbersRef = useRef<(HTMLInputElement | null)[]>([]);
-  const [value, setValue] = useState<string[]>([]);
-
-  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>, i: number) => {
-    const { value } = e.target;
-
-    if ((!SEED.includes(value.toUpperCase()) && value !== '') || value.length > 1) {
-      e.preventDefault();
-      e.target.value = '';
-      return false;
-    }
-
-    setValue(prev => {
-      const next = [...prev];
-      next[i] = value.toUpperCase();
-      return next;
-    });
-
-    numbersRef.current[i + 1]?.focus();
-  }, []);
-
-  useEffect(() => {
-    return () => {
-      numbersRef.current = [];
-    };
-  }, []);
+  const { numbersRef, value, handleChange } = useSlotNumberManualInput();
 
   return (
     <Wrapper style={{ backgroundImage: `url(${slotInputBg})` }} {...rest}>
