@@ -1,7 +1,7 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
 const plugin = require('tailwindcss/plugin');
 
-const spacing = [...[...Array(1001).keys()]];
+const spacing = [...[...Array(1001).keys()], 0.5];
 
 const convertSpacing = spacing =>
   [...new Set(spacing)].reduce((res, space) => {
