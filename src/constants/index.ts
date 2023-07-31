@@ -43,3 +43,22 @@ type Contract = 'CONTRACT_NAME';
 export const CONTRACT_ADDRESS: Record<Contract, `0x${string}`> = {
   CONTRACT_NAME: IS_MAINNET ? '0x' : '0x',
 };
+
+export const SEED = [
+  '0',
+  '1',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+  'A',
+  'B',
+  'C',
+  'D',
+  'E',
+  'F',
+];
