@@ -5,6 +5,7 @@ export const COLOR = {
   PINK: '#ff36ff',
   PURPLE: '#9744ff',
   MINT: '#4ef6d8',
+  BLUE: '#3358ff',
 
   GRAY5: '#1f1a37',
   GRAY4: '#313d65',
