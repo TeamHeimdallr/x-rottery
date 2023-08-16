@@ -34,12 +34,16 @@ module.exports = {
         pink: '#FF36FF',
         purple: '#9744FF',
         mint: '#4EF6D8',
+        blue: '#3358FF',
+        darkblue: '#2547E0',
 
         gray5: '#1F1A37',
         gray4: '#313D65',
         gray3: '#787C9C',
         gray2: '#B7B9CE',
+        gray15: '#DEE3EE',
         gray1: '#e5e7ec',
+        gray0: '#F9FAFD',
       },
 
       fontFamily: {
