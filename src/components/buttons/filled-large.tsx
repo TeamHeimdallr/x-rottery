@@ -1,6 +1,6 @@
 import lottie from 'lottie-web/build/player/lottie_light';
 import { ButtonHTMLAttributes, useEffect, useRef } from 'react';
-import tw, { css, styled } from 'twin.macro';
+import tw, { styled } from 'twin.macro';
 
 import loading from '~/assets/lottie/loading-dot.json';
 
@@ -49,7 +49,7 @@ const Wrapper = styled.button<ButtonProps>(({ isLoading }) => [
 
 const TextWrapper = styled.div<ButtonProps>(({ isLoading }) => [
   tw`
-    font-b-18 border
+    font-b-18
   `,
   isLoading && tw`opacity-0`,
 ]);

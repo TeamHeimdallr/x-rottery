@@ -1,16 +1,15 @@
 import lottie from 'lottie-web/build/player/lottie_light';
 import { ButtonHTMLAttributes, useEffect, useRef } from 'react';
-import tw, { css, styled } from 'twin.macro';
+import tw, { styled } from 'twin.macro';
 
 import loading from '~/assets/lottie/loading-dot.json';
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   text: string;
   isLoading?: boolean;
-  disabled?: boolean;
 }
 
-export const FilledMediumButton = ({ text, isLoading, disabled, ...rest }: Props) => {
+export const FilledMediumButton = ({ text, isLoading, ...rest }: Props) => {
   const warpperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -29,7 +28,7 @@ export const FilledMediumButton = ({ text, isLoading, disabled, ...rest }: Props
   }, [warpperRef, isLoading]);
 
   return (
-    <Wrapper disabled={disabled} isLoading={isLoading} {...rest}>
+    <Wrapper isLoading={isLoading} {...rest}>
       <TextWrapper isLoading={isLoading}>{text}</TextWrapper>
       <LottieWrapper ref={warpperRef} />
     </Wrapper>
@@ -38,7 +37,6 @@ export const FilledMediumButton = ({ text, isLoading, disabled, ...rest }: Props
 
 interface ButtonProps {
   isLoading?: boolean;
-  disabled?: boolean;
 }
 const Wrapper = styled.button<ButtonProps>(({ isLoading }) => [
   tw`
