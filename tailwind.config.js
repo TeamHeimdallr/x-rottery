@@ -150,7 +150,6 @@ module.exports = {
           cursor: 'not-allowed',
           userSelect: 'none',
         },
-
         '.transition-color': {
           transitionProperty: 'background-color,border-color,color,fill,stroke',
           transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
@@ -159,6 +158,12 @@ module.exports = {
 
         '.main-gradient': {
           background: 'linear-gradient(315deg, #9744FF 0%, #FF36FF 100%)',
+        },
+        '.bg-none': {
+          background: 'none',
+        },
+        '.box-shadow': {
+          boxShadow: '0px 0px 24px 0px #ff36ff',
         },
 
         '.font-r-12': {
