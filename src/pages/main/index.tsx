@@ -1,7 +1,13 @@
 import tw from 'twin.macro';
 
+import { FilledLargeButton } from '~/components/buttons';
+
 const MainPage = () => {
-  return <Wrapper></Wrapper>;
+  return (
+    <Wrapper>
+      <FilledLargeButton text={'Connect Wallet'} isLoading={true} />
+    </Wrapper>
+  );
 };
 
 const Wrapper = tw.div``;

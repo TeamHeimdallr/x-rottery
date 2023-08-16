@@ -1,6 +1,6 @@
 import lottie from 'lottie-web/build/player/lottie_light';
 import { ButtonHTMLAttributes, useEffect, useRef } from 'react';
-import tw, { styled } from 'twin.macro';
+import tw, { css, styled } from 'twin.macro';
 
 import loading from '~/assets/lottie/loading-dot.json';
 
@@ -8,7 +8,8 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   text: string;
   isLoading?: boolean;
 }
-export const ButtonSmall = ({ text, isLoading, ...rest }: Props) => {
+
+export const FilledLargeButton = ({ text, isLoading, ...rest }: Props) => {
   const warpperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -34,23 +35,21 @@ export const ButtonSmall = ({ text, isLoading, ...rest }: Props) => {
   );
 };
 
-interface LoadingProps {
+interface ButtonProps {
   isLoading?: boolean;
 }
-const Wrapper = styled.button<LoadingProps>(({ isLoading }) => [
+const Wrapper = styled.button<ButtonProps>(({ isLoading }) => [
   tw`
-    h-32 px-16 py-6 flex-center relative
-    rounded-8 bg-gray4 clickable
-    hover:(bg-gray3)
-    disabled:(bg-gray2 non-clickable hover:(bg-gray2))
+    h-58 px-32 py-16 flex-center relative
+    rounded-8 clickable main-gradient text-white
+    hover:(text-pink bg-none box-shadow)
   `,
-  isLoading && tw`text-transparent non-clickable`,
+  isLoading && tw`non-clickable bg-none hover:(shadow-none)`,
 ]);
 
-const TextWrapper = styled.div<LoadingProps>(({ isLoading }) => [
+const TextWrapper = styled.div<ButtonProps>(({ isLoading }) => [
   tw`
-    font-r-12 text-white
-    disabled:(text-gray5)
+    font-b-18 border
   `,
   isLoading && tw`opacity-0`,
 ]);
