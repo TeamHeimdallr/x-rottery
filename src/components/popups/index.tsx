@@ -45,7 +45,7 @@ const PopupWrapper = tw.div`
 `;
 
 const BodyWrapper = tw.div`
-  flex flex-col items-center gap-20
+  flex flex-col items-center gap-24
 `;
 
 const IconOuterCircle = styled.div(() => [
