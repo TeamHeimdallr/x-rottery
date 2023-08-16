@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { SlotNumberAutoGenerator } from '.';
+import { SlotNumberAutoGenerator } from '~/components/slot-number/auto-generator';
 
 const meta = {
   title: 'Components/SlotNumberAutoGenerator',

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { SlotNumberManualInput } from '.';
+import { SlotNumberManualInput } from '~/components/slot-number/manual-input';
 
 const meta = {
   title: 'Components/SlotNumberManualInput',
