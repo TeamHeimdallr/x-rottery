@@ -54,6 +54,7 @@ const MainPage = () => {
       Account: address,
       Amount: xrpToDrops(DEPOSIT),
       Destination: OWNER_ADDRESS,
+      Memos: [{ Memo: { MemoData: '123456' } }],
     });
 
     const signed = Wallet.fromSeed(seed).sign(prepared);
