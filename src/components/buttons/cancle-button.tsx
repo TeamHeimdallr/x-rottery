@@ -1,21 +1,33 @@
-import { useState } from 'react';
-import tw from 'twin.macro';
+import { ButtonHTMLAttributes } from 'react';
+import tw, { css, styled } from 'twin.macro';
 
 import { COLOR } from '~/assets/colors';
 
 import { IconCancle } from '../icons';
 
-export const CancleButton = () => {
-  const [isHover, setIsHover] = useState(false);
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {}
+
+export const CancleButton = ({ ...rest }: Props) => {
   return (
-    <Wrapper onMouseOver={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)}>
-      <IconCancle color={isHover ? COLOR.GRAY1 : COLOR.GRAY2} />
+    <Wrapper {...rest}>
+      <IconCancle color={COLOR.GRAY2} />
     </Wrapper>
   );
 };
 
-const Wrapper = tw.div`
-  w-40 h-40 flex-center clickable rounded-full
-  bg-gray5
-  hover:(bg-gray4)
-`;
+const Wrapper = styled.button(() => [
+  tw`
+    w-40 h-40 flex-center clickable rounded-full
+    bg-gray5
+    hover:(bg-gray4)
+  `,
+  css`
+    &:hover {
+      svg {
+        path {
+          fill: ${COLOR.GRAY1};
+        }
+      }
+    }
+  `,
+]);
