@@ -10,6 +10,10 @@ const preview: Preview = {
         date: /Date$/,
       },
     },
+    backgrounds: {
+      default: 'black',
+      values: [{ name: 'black', value: '#080117' }],
+    },
   },
 };
 

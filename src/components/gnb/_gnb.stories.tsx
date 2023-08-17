@@ -7,9 +7,10 @@ const meta = {
   component: Gnb,
   tags: ['autodocs'],
   argTypes: {
+    isConnect: { control: { type: 'boolean' } },
     address: { control: { type: 'text' } },
     xrpBalance: { control: { type: 'text' } },
-    disconnect: { control: { type: 'function' } },
+    disConnect: { control: { type: 'function' } },
   },
 } satisfies Meta<typeof Gnb>;
 
@@ -18,8 +19,9 @@ type Story = StoryObj<typeof meta>;
 
 export const _Gnb: Story = {
   args: {
+    isConnect: true,
     address: 'r3kmLJN5D28dHuH8vZNUZpMC43pEHpaocV',
-    xrpBalance: '1000',
-    disconnect: () => console.log('disconnect'),
+    xrpBalance: '000,000.00',
+    disConnect: () => console.log('disconnect'),
   },
 };
