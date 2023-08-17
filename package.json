@@ -12,8 +12,7 @@
     "preview": "dotenv -e .env -- vite preview",
     "check:lint": "eslint src --ext ts --ext tsx --fix",
     "check:prettier": "prettier --write --ignore-path .gitignore \"**/*.+(js|jsx|ts|tsx|json)\"",
-    "check:type": "tsc --p ./tsconfig.json --noEmit",
-    "prepare": "husky install"
+    "check:type": "tsc --p ./tsconfig.json --noEmit"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
