@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/react';
 
-import { MainPreviousTable } from '~/components/table';
+import { MainPreviousTable } from '~/components/tables';
 
 const meta = {
   title: 'Components/MainPreviousTable',

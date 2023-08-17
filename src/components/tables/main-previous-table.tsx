@@ -1,21 +1,17 @@
-import { format } from 'date-fns';
 import tw, { css, styled } from 'twin.macro';
 
-import { DATE_FORMATTER } from '~/utils/time';
+import { parseNumberWithComma } from '~/utils/number';
 
 import { SixNumbers } from '../six-numbers';
 
-interface TableProps {
-  value?: string;
-  width?: number;
-}
-
 const Header = [
-  { value: 'Purchase Date', width: 160 },
-  { value: 'My Numbers', width: 504 },
+  { value: 'Round', width: 60 },
+  { value: 'Winning Numbers', width: 300 },
+  { value: 'Jackpot', width: 144 },
+  { value: 'Winner', width: 144 },
 ];
 
-const RowsDummy = [
+const ColumnsDummy = [
   { number: '0A1B2C', winner: '0xd28f...abce', jackpot: 9999999 },
   { number: '0A1B2C', winner: '0xd28f...abce', jackpot: 9999999 },
   { number: '83DD00', winner: '0xd28f...abce', jackpot: 9999999 },
@@ -25,7 +21,7 @@ const RowsDummy = [
   { number: 'DA214F', winner: '0xd28f...abce', jackpot: 9999999 },
 ];
 
-export const MyOngoingTable = () => {
+export const MainPreviousTable = () => {
   return (
     <Wrapper>
       <TableWrapper>
@@ -37,20 +33,24 @@ export const MyOngoingTable = () => {
           ))}
         </THead>
         <TBody>
-          {RowsDummy.map(row => {
-            const { number } = row;
+          {ColumnsDummy.map((row, index) => {
+            const { jackpot, number, winner } = row;
             return (
-              <>
+              <div key={index}>
                 <Divider />
                 <Tr>
-                  <Datas width={160}>
-                    <DateText>{format(Date.now(), DATE_FORMATTER.YYYY_MM_DD_HHMMSS)}</DateText>
+                  <Datas width={60}>
+                    <RoundText>5</RoundText>
                   </Datas>
-                  <Datas width={504}>
+                  <Datas width={300}>
                     <SixNumbers number={number} />
                   </Datas>
+                  <Datas width={144}>
+                    <JackpotText>{parseNumberWithComma(jackpot)} XRP</JackpotText>
+                  </Datas>
+                  <Datas width={144}>{winner}</Datas>
                 </Tr>
-              </>
+              </div>
             );
           })}
         </TBody>
@@ -69,6 +69,10 @@ const TableWrapper = tw.div`
   w-full
 `;
 
+interface TableProps {
+  width?: number;
+}
+
 const Datas = styled.div<TableProps>(({ width }) => [
   tw`flex flex-center`,
   css`
@@ -83,13 +87,16 @@ const THead = tw.div`
 const TBody = tw.div`
   w-full
 `;
-const Tr = tw.tr`
+const Tr = tw.div`
   flex gap-8 
 `;
 const Divider = tw.div`
   h-1 w-full bg-gray4
   my-24 
 `;
-const DateText = tw.div`
-  font-r-14 text-gray2
+const RoundText = tw.div`
+  font-b-16
+`;
+const JackpotText = tw.div`
+  font-b-16 text-mint
 `;

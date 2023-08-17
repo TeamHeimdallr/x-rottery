@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/react';
 
-import { MyOngoingTable } from '~/components/table';
+import { MyOngoingTable } from '~/components/tables';
 
 const meta = {
   title: 'Components/MyOngoingTable',

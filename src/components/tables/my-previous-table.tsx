@@ -7,11 +7,6 @@ import { DATE_FORMATTER } from '~/utils/time';
 import { FilledMediumButton } from '../buttons';
 import { SixNumbers } from '../six-numbers';
 
-interface TableProps {
-  value?: string;
-  width?: number;
-}
-
 const Header = [
   { value: 'Purchase Date', width: 140 },
   { value: 'Round', width: 48 },
@@ -49,7 +44,7 @@ export const MyPreviousTable = ({ isJackpot, claimed }: Props) => {
           {ColumnsDummy.map((row, index) => {
             const { number, jackpot } = row;
             return (
-              <>
+              <div key={index}>
                 <Divider />
                 <Tr>
                   <Datas width={140}>
@@ -85,7 +80,7 @@ export const MyPreviousTable = ({ isJackpot, claimed }: Props) => {
                     </Container>
                   </Datas>
                 </Tr>
-              </>
+              </div>
             );
           })}
         </TBody>
@@ -104,6 +99,10 @@ const TableWrapper = tw.div`
   w-full
 `;
 
+interface TableProps {
+  width?: number;
+}
+
 const Datas = styled.div<TableProps>(({ width }) => [
   tw`flex flex-center`,
   css`
@@ -118,7 +117,7 @@ const THead = tw.div`
 const TBody = tw.div`
   w-full
 `;
-const Tr = tw.tr`
+const Tr = tw.div`
   flex gap-8 
 `;
 const Divider = tw.div`
