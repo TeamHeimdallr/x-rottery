@@ -5,7 +5,7 @@ import { useOnClickOutside } from 'usehooks-ts';
 import { COLOR } from '~/assets/colors';
 import { usePopup } from '~/hooks/pages/use-popup';
 
-import { ButtonSmall } from '../buttons/small';
+import { FilledMediumButton } from '../buttons';
 import { IconCheck } from '../icons';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
@@ -30,7 +30,7 @@ export const Popup = ({ id, text }: Props) => {
           <TextWrapper>{text}</TextWrapper>
         </BodyWrapper>
         <ButtonWrapper>
-          <ButtonSmall text={`Done`} />
+          <FilledMediumButton text={`Done`} />
         </ButtonWrapper>
       </PopupWrapper>
       <Dim />
