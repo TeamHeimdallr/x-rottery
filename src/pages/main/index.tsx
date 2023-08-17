@@ -13,6 +13,9 @@ const MainPage = () => {
   const [seed, setSeed] = useState<string>();
   const [address, setAddrss] = useState<string>();
   const [balance, setBalance] = useState<string>();
+  const [hash, setHash] = useState<string>();
+  const [number, setNumber] = useState<string>();
+  const [memo, setMemo] = useState<string>();
 
   const getAccountFromSeeds = async () => {
     if (!seed) return;
@@ -54,7 +57,7 @@ const MainPage = () => {
       Account: address,
       Amount: xrpToDrops(DEPOSIT),
       Destination: OWNER_ADDRESS,
-      Memos: [{ Memo: { MemoData: '123456' } }],
+      Memos: [{ Memo: { MemoData: number } }],
     });
 
     const signed = Wallet.fromSeed(seed).sign(prepared);
@@ -62,7 +65,18 @@ const MainPage = () => {
 
     console.log(tx);
 
+    setHash(tx.result.hash);
+
     client.disconnect();
+  };
+
+  const getTxData = async () => {
+    const client = new Client(NET);
+    await client.connect();
+    const res = await client.request({ command: 'tx', transaction: hash });
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    setMemo((res.result as any).Memos[0].Memo.MemoData);
   };
 
   return (
@@ -75,7 +89,11 @@ const MainPage = () => {
       </ButtonWrapper>
       <TextWrapper>address : {address}</TextWrapper>
       <TextWrapper>balance : {balance}</TextWrapper>
+      <TextField placeholder="Set Number" onChange={e => setNumber(e.target.value)} />
       <FilledMediumButton text={'Buy Ticket'} onClick={buyTicket} />
+      <TextWrapper>{hash}</TextWrapper>
+      <FilledMediumButton text={'Get Data'} onClick={getTxData} />
+      <TextWrapper>number : {memo}</TextWrapper>
     </Wrapper>
   );
 };
