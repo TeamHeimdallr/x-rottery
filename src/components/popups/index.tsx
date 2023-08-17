@@ -6,6 +6,7 @@ import { COLOR } from '~/assets/colors';
 import { usePopup } from '~/hooks/pages/use-popup';
 
 import { FilledMediumButton } from '../buttons';
+import { CancelButton } from '../buttons/cancel-button';
 import { IconCancle, IconCheck, IconWallet } from '../icons';
 import { TextField } from '../text-field';
 
@@ -28,7 +29,7 @@ export const Popup = ({ id, text, type }: Props) => {
             <ConnectTitleWrapper>
               <Title>Connect XRP wallet</Title>
               <IconWrapper onClick={close}>
-                <IconCancle color={COLOR.GRAY2} width={24} height={24} />
+                <CancelButton />
               </IconWrapper>
             </ConnectTitleWrapper>
             <TextField placeholder="Enter your private key" />
