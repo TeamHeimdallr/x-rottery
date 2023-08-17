@@ -20,7 +20,7 @@ export const Gnb = ({ isConnect, address, xrpBalance, disConnect }: Props) => {
   // no navigate in storybook, TODO: navigate
   // const navigate = useNavigate();
   const [dropdownOpened, dropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   useOnClickOutside(dropdownRef, () => dropdownOpen(false));
 
   const handleDropdownClick = () => {
