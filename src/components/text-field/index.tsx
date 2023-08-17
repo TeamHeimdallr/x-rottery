@@ -1,15 +1,14 @@
-import { ChangeEvent, InputHTMLAttributes } from 'react';
+import { InputHTMLAttributes } from 'react';
 import tw from 'twin.macro';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   placeholder?: string;
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const TextField = ({ placeholder, onChange, ...rest }: Props) => {
+export const TextField = ({ placeholder, ...rest }: Props) => {
   return (
     <Wrapper>
-      <TextFieldWrapper placeholder={placeholder} onChange={onChange} {...rest}></TextFieldWrapper>
+      <TextFieldWrapper placeholder={placeholder} {...rest}></TextFieldWrapper>
     </Wrapper>
   );
 };
