@@ -68,3 +68,4 @@ export const POPUP_ID = {
   CONNECT: 'connect',
   CLAIM: 'claim',
 };
+export const NET = 'wss://s.altnet.rippletest.net:51233';
