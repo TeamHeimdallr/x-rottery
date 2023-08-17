@@ -7,7 +7,7 @@ import { IconCancle } from '../icons';
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {}
 
-export const CancleButton = ({ ...rest }: Props) => {
+export const CancelButton = ({ ...rest }: Props) => {
   return (
     <Wrapper {...rest}>
       <IconCancle color={COLOR.GRAY2} />
