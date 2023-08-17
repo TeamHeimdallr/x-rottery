@@ -1,8 +1,10 @@
-import logo from 'assets/images/logo.png';
 import { HTMLAttributes, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import tw from 'twin.macro';
+import tw, { css, styled } from 'twin.macro';
 
+import logo from '~/assets/images/Logo.png';
+
+import { FilledMediumButton } from '../buttons';
 import { IconXrottery } from '../icons';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
@@ -22,6 +24,13 @@ export const Gnb = ({ address, xrpBalance, disconnect }: Props) => {
       </LogoWrapper>
       <ButtonWrapper>
         {address && <MypageButton onClick={() => navigate('/mypage')}>My Page</MypageButton>}
+        {address ? (
+          <DropdownButtonWrapper>
+            <DropdownButton>{address}</DropdownButton>
+          </DropdownButtonWrapper>
+        ) : (
+          <FilledMediumButton text={'Connect Wallet'} onClick={() => console.log('connect')} />
+        )}
       </ButtonWrapper>
     </Wrapper>
   );
@@ -45,4 +54,15 @@ const LogoImage = tw.img`
 
 const MypageButton = tw.div`
   w-81 font-b-20 text-center text-white bg-transparent
+`;
+
+const DropdownButtonWrapper = styled.div(() => [
+  tw`w-148 h-42 font-b-20 flex flex-center p-1`,
+  css`
+    background: linear-gradient(315deg, #9744ff 0%, #ff36ff 100%);
+  `,
+]);
+
+const DropdownButton = tw.div`
+  w-full h-full text-center text-white bg-gray5
 `;
