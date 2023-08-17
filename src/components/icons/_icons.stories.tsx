@@ -19,6 +19,7 @@ export const _Icons: Story = {
     <IconWrapper>
       <IconSvg.IconActive />
       <IconSvg.IconArrowDown />
+      <IconSvg.IconCancle />
       <IconSvg.IconCheck />
       <IconSvg.IconDown />
       <IconSvg.IconLocked />

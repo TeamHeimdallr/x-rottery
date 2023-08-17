@@ -6,7 +6,7 @@ import { COLOR } from '~/assets/colors';
 import { usePopup } from '~/hooks/pages/use-popup';
 
 import { FilledMediumButton } from '../buttons';
-import { IconCancle, IconCheck } from '../icons';
+import { IconCancle, IconCheck, IconWallet } from '../icons';
 import { TextField } from '../text-field';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
@@ -46,6 +46,12 @@ export const Popup = ({ id, text, type }: Props) => {
         )}
         <ButtonWrapper>
           <FilledMediumButton text={type === 'success' ? `Done` : 'Connect'} onClick={close} />
+          {type === 'connect' && (
+            <CreateWalletWrapper onClick={() => console.log('create wallet')}>
+              <IconWallet color={COLOR.GRAY2} width={20} height={20} />
+              <CreateWalletText>Create a new Wallet</CreateWalletText>
+            </CreateWalletWrapper>
+          )}
         </ButtonWrapper>
       </PopupWrapper>
       <Dim />
@@ -104,5 +110,13 @@ const TextWrapper = tw.div`
 `;
 
 const ButtonWrapper = tw.div`
-  flex w-full flex-center h-42
+  flex flex-col w-full flex-center gap-16
+`;
+
+const CreateWalletWrapper = tw.div`
+  flex gap-4 clickable
+`;
+
+const CreateWalletText = tw.div`
+  font-r-12 text-gray2 text-center
 `;
