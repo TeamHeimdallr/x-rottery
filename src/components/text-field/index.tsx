@@ -1,10 +1,15 @@
-import { InputHTMLAttributes } from 'react';
+import { ChangeEvent, InputHTMLAttributes } from 'react';
 import tw from 'twin.macro';
 
-export const TextField = ({ ...rest }: InputHTMLAttributes<HTMLInputElement>) => {
+interface Props extends InputHTMLAttributes<HTMLInputElement> {
+  placeholder?: string;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+}
+
+export const TextField = ({ placeholder, onChange, ...rest }: Props) => {
   return (
     <Wrapper>
-      <TextFieldWrapper {...rest}></TextFieldWrapper>
+      <TextFieldWrapper placeholder={placeholder} onChange={onChange} {...rest}></TextFieldWrapper>
     </Wrapper>
   );
 };
@@ -14,5 +19,5 @@ const Wrapper = tw.div`
 `;
 const TextFieldWrapper = tw.input`
   flex items-center h-56 bg-gray4 px-20 py-16 text-white placeholder:text-gray2
-  border-none rounded-8 font-r-16
+  border-none rounded-8 font-r-16 caret-pink
 `;
