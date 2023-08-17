@@ -12,7 +12,8 @@
     "preview": "dotenv -e .env -- vite preview",
     "check:lint": "eslint src --ext ts --ext tsx --fix",
     "check:prettier": "prettier --write --ignore-path .gitignore \"**/*.+(js|jsx|ts|tsx|json)\"",
-    "check:type": "tsc --p ./tsconfig.json --noEmit"
+    "check:type": "tsc --p ./tsconfig.json --noEmit",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -59,6 +60,7 @@
     "eslint-plugin-react": "^7.33.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-simple-import-sort": "^10.0.0",
+    "husky": "^8.0.0",
     "prettier": "^3.0.0",
     "prettier-plugin-tailwindcss": "^0.4.1",
     "rollup-plugin-visualizer": "^5.9.2",
