@@ -10,7 +10,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   disabled?: boolean;
 }
 
-export const FilledMediumButton = ({ text, isLoading, ...rest }: Props) => {
+export const FilledMediumButton = ({ text, isLoading, disabled, ...rest }: Props) => {
   const warpperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export const FilledMediumButton = ({ text, isLoading, ...rest }: Props) => {
   }, [warpperRef, isLoading]);
 
   return (
-    <Wrapper isLoading={isLoading} {...rest}>
+    <Wrapper isLoading={isLoading} disabled={disabled} {...rest}>
       <TextWrapper isLoading={isLoading}>{text}</TextWrapper>
       <LottieWrapper ref={warpperRef} />
     </Wrapper>
