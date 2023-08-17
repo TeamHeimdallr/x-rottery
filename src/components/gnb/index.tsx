@@ -5,18 +5,19 @@ import { useOnClickOutside } from 'usehooks-ts';
 
 import { COLOR } from '~/assets/colors';
 import logo from '~/assets/images/Logo.png';
+import { truncateAddress } from '~/utils/string';
 
 import { FilledMediumButton } from '../buttons';
 import { IconLogout, IconXrottery } from '../icons';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
-  isConnect?: boolean;
-  address?: string;
+  isConnected?: boolean;
+  address?: `r${string}`;
   xrpBalance?: string;
   disConnect?: () => void;
 }
 
-export const Gnb = ({ isConnect, address, xrpBalance, disConnect }: Props) => {
+export const Gnb = ({ isConnected, address, xrpBalance, disConnect }: Props) => {
   // no navigate in storybook, TODO: navigate
   // const navigate = useNavigate();
   const [dropdownOpened, dropdownOpen] = useState(false);
@@ -33,16 +34,16 @@ export const Gnb = ({ isConnect, address, xrpBalance, disConnect }: Props) => {
         <IconXrottery width={131} height={24} />
       </LogoWrapper>
       <ButtonWrapper>
-        {isConnect && <MypageButton onClick={() => console.log('mypage')}>My Page</MypageButton>}
-        {isConnect ? (
+        {isConnected && <MypageButton onClick={() => console.log('mypage')}>My Page</MypageButton>}
+        {isConnected ? (
           <DropdownButtonWrapper>
             <DropdownButton onClick={handleDropdownClick}>
-              <DropdownText>{address}</DropdownText>
+              <DropdownText>{truncateAddress(address)}</DropdownText>
             </DropdownButton>
             {dropdownOpened && (
               <OpenedDropdown ref={dropdownRef}>
                 <OpenedDropdownButton onClick={handleDropdownClick}>
-                  <DropdownText>{address}</DropdownText>
+                  <DropdownText>{truncateAddress(address)}</DropdownText>
                 </OpenedDropdownButton>
                 <OpenedDropdownXrpWrapper>
                   <XrpValue>{xrpBalance}</XrpValue>
@@ -95,7 +96,7 @@ const DropdownButton = tw.div`
 `;
 
 const DropdownText = tw.div`
-  max-w-100 text-ellipsis overflow-hidden font-b-14 text-white
+  font-b-14 text-white
 `;
 
 const OpenedDropdown = styled.div(() => [
@@ -106,7 +107,7 @@ const OpenedDropdown = styled.div(() => [
 ]);
 
 const OpenedDropdownButton = tw.div`
-  w-148 h-42 px-24 py-10 rounded-8 clickable
+  h-42 px-24 py-10 rounded-8 clickable text-center
 `;
 
 const OpenedDropdownText = tw.div`
