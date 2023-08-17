@@ -7,6 +7,7 @@ import { usePopup } from '~/hooks/pages/use-popup';
 
 import { FilledMediumButton } from '../buttons';
 import { IconCancle, IconCheck } from '../icons';
+import { TextField } from '../text-field';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   id?: string;
@@ -23,12 +24,15 @@ export const Popup = ({ id, text, type }: Props) => {
     <Wrapper>
       <PopupWrapper ref={popupRef} type={type}>
         {type === 'connect' && (
-          <ConnectTitleWrapper>
-            <Title>Connect XRP Wallet</Title>
-            <IconWrapper onClick={close}>
-              <IconCancle color={COLOR.GRAY2} width={24} height={24} />
-            </IconWrapper>
-          </ConnectTitleWrapper>
+          <ConnectWrapper>
+            <ConnectTitleWrapper>
+              <Title>Connect XRP wallet</Title>
+              <IconWrapper onClick={close}>
+                <IconCancle color={COLOR.GRAY2} width={24} height={24} />
+              </IconWrapper>
+            </ConnectTitleWrapper>
+            <TextField placeholder="Enter your private key" />
+          </ConnectWrapper>
         )}
         {type === 'success' && (
           <SuccessWrapper>
@@ -59,6 +63,10 @@ const PopupWrapper = styled.div<PopupWrapperProps>(({ type }) => [
   tw`w-480 fixed flex flex-col bg-gray5 z-11 absolute-center rounded-20`,
   type === 'success' ? tw`px-48 py-40 gap-40` : tw`p-20 gap-32`,
 ]);
+
+const ConnectWrapper = tw.div`
+  flex flex-col gap-20
+`;
 
 const ConnectTitleWrapper = tw.div`
   flex w-full h-40 items-center justify-between
