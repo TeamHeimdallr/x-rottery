@@ -16,16 +16,14 @@ export const TextButton = ({ text, ...rest }: Props) => {
 const Wrapper = styled.button(() => [
   tw`
     bg-transparent p-0
-    border-y-0 border-x-0 border-b-1 border-solid border-white
     flex-center relative
     clickable
-    hover:(border-y-0 border-x-0 border-b-1 border-solid border-pink)
   `,
 ]);
 
 const TextWrapper = styled.div(() => [
   tw`
-    font-b-14 text-white
+    font-b-14 text-white underline underline-offset-[5px]
     hover:(text-pink)
   `,
 ]);
