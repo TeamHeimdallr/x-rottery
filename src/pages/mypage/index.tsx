@@ -42,7 +42,7 @@ const PageTitleWrapper = tw.div`
 const PageTitle = styled.div(() => [
   tw`font-dela-b-28 text-mint text-center`,
   css`
-    text-shadow: 0px 0px 24px 0px #4ef6d8;
+    text-shadow: 0px 0px 24px #4ef6d8;
   `,
 ]);
 const BodyWrapper = tw.div`
