@@ -3,7 +3,6 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import tw from 'twin.macro';
 
 const MainPage = lazy(() => import('./pages/main'));
-const a = 1;
 
 const RouteWrapper = tw.main`relative w-full h-full`;
 const App = () => {
