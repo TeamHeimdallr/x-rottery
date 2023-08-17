@@ -24,3 +24,11 @@ export const PopUp: Story = {
     type: 'connect',
   },
 };
+
+export const PopUpSuccess: Story = {
+  args: {
+    id: 'popup',
+    text: 'You have successfully purchased a lottery ticket. Good luck!',
+    type: 'success',
+  },
+};

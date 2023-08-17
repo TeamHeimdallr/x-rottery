@@ -5,7 +5,7 @@ import { useOnClickOutside } from 'usehooks-ts';
 import { COLOR } from '~/assets/colors';
 import { usePopup } from '~/hooks/pages/use-popup';
 
-import { ButtonSmall } from '../buttons/small';
+import { FilledMediumButton } from '../buttons';
 import { IconCancle, IconCheck } from '../icons';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
@@ -21,7 +21,7 @@ export const Popup = ({ id, text, type }: Props) => {
 
   return (
     <Wrapper>
-      <PopupWrapper ref={popupRef}>
+      <PopupWrapper ref={popupRef} type={type}>
         {type === 'connect' && (
           <ConnectTitleWrapper>
             <Title>Connect XRP Wallet</Title>
@@ -41,7 +41,7 @@ export const Popup = ({ id, text, type }: Props) => {
           </SuccessWrapper>
         )}
         <ButtonWrapper>
-          <ButtonSmall text={`Done`} />
+          <FilledMediumButton text={type === 'success' ? `Done` : 'Connect'} onClick={close} />
         </ButtonWrapper>
       </PopupWrapper>
       <Dim />
@@ -51,12 +51,17 @@ export const Popup = ({ id, text, type }: Props) => {
 
 const Wrapper = tw.div``;
 
-const PopupWrapper = tw.div`
-  w-480 fixed flex flex-col bg-gray5 z-11 absolute-center rounded-20 px-48 py-40 gap-40
-`;
+interface PopupWrapperProps {
+  type?: 'success' | 'connect';
+}
+
+const PopupWrapper = styled.div<PopupWrapperProps>(({ type }) => [
+  tw`w-480 fixed flex flex-col bg-gray5 z-11 absolute-center rounded-20`,
+  type === 'success' ? tw`px-48 py-40 gap-40` : tw`p-20 gap-32`,
+]);
 
 const ConnectTitleWrapper = tw.div`
-  flex w-full items-center justify-between
+  flex w-full h-40 items-center justify-between
 `;
 
 const Title = tw.div`
