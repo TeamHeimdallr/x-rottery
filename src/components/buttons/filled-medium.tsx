@@ -7,6 +7,7 @@ import loading from '~/assets/lottie/loading-dot.json';
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   text: string;
   isLoading?: boolean;
+  disabled?: boolean;
 }
 
 export const FilledMediumButton = ({ text, isLoading, ...rest }: Props) => {
