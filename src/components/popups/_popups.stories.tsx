@@ -8,6 +8,8 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     id: { control: 'text' },
+    text: { control: 'text' },
+    type: { control: 'text' },
   },
 } satisfies Meta<typeof Popup>;
 
@@ -19,5 +21,6 @@ export const PopUp: Story = {
   args: {
     id: 'popup',
     text: 'You have successfully purchased a lottery ticket. Good luck!',
+    type: 'connect',
   },
 };

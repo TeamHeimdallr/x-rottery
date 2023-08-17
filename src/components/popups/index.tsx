@@ -6,14 +6,15 @@ import { COLOR } from '~/assets/colors';
 import { usePopup } from '~/hooks/pages/use-popup';
 
 import { ButtonSmall } from '../buttons/small';
-import { IconCheck } from '../icons';
+import { IconCancle, IconCheck } from '../icons';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   id?: string;
   text?: string;
+  type?: 'success' | 'connect';
 }
 
-export const Popup = ({ id, text }: Props) => {
+export const Popup = ({ id, text, type }: Props) => {
   const popupRef = useRef<HTMLDivElement>(null);
   const { close } = usePopup(id);
   useOnClickOutside(popupRef, close);
@@ -21,14 +22,24 @@ export const Popup = ({ id, text }: Props) => {
   return (
     <Wrapper>
       <PopupWrapper ref={popupRef}>
-        <BodyWrapper>
-          <IconOuterCircle>
-            <IconInnerCircle>
-              <IconCheck color={COLOR.WHITE} width={40} height={40} />
-            </IconInnerCircle>
-          </IconOuterCircle>
-          <TextWrapper>{text}</TextWrapper>
-        </BodyWrapper>
+        {type === 'connect' && (
+          <ConnectTitleWrapper>
+            <Title>Connect XRP Wallet</Title>
+            <IconWrapper onClick={close}>
+              <IconCancle color={COLOR.GRAY2} width={24} height={24} />
+            </IconWrapper>
+          </ConnectTitleWrapper>
+        )}
+        {type === 'success' && (
+          <SuccessWrapper>
+            <IconOuterCircle>
+              <IconInnerCircle>
+                <IconCheck color={COLOR.WHITE} width={40} height={40} />
+              </IconInnerCircle>
+            </IconOuterCircle>
+            <TextWrapper>{text}</TextWrapper>
+          </SuccessWrapper>
+        )}
         <ButtonWrapper>
           <ButtonSmall text={`Done`} />
         </ButtonWrapper>
@@ -44,7 +55,19 @@ const PopupWrapper = tw.div`
   w-480 fixed flex flex-col bg-gray5 z-11 absolute-center rounded-20 px-48 py-40 gap-40
 `;
 
-const BodyWrapper = tw.div`
+const ConnectTitleWrapper = tw.div`
+  flex w-full items-center justify-between
+`;
+
+const Title = tw.div`
+  font-b-18 text-white
+`;
+
+const IconWrapper = tw.div`
+  flex flex-center clickable
+`;
+
+const SuccessWrapper = tw.div`
   flex flex-col items-center gap-24
 `;
 
