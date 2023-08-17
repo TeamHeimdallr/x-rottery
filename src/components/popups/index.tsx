@@ -7,7 +7,7 @@ import { usePopup } from '~/hooks/pages/use-popup';
 
 import { FilledMediumButton } from '../buttons';
 import { CancelButton } from '../buttons/cancel-button';
-import { IconCancle, IconCheck, IconWallet } from '../icons';
+import { IconCheck, IconWallet } from '../icons';
 import { TextField } from '../text-field';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
