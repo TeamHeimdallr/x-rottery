@@ -1,8 +1,12 @@
 import tw, { css, styled } from 'twin.macro';
 
+import { Gnb } from '~/components/gnb';
+import { MyOngoingTable, MyPreviousTable } from '~/components/tables';
+
 const MyPage = () => {
   return (
     <Wrapper>
+      <Gnb />
       <PageWrapper>
         <PageTitleWrapper>
           <PageTitle>My Page</PageTitle>
@@ -11,16 +15,19 @@ const MyPage = () => {
           <RoundWrapper>
             <RoundTitleWrapper>
               <RoundTitle>Ongoing Round</RoundTitle>
-              <DateText></DateText>
+              <DateText>Draw Date: Sunday, August 20, 2023</DateText>
             </RoundTitleWrapper>
-            <TableWrapper></TableWrapper>
+            <TableWrapper>
+              <MyOngoingTable />
+            </TableWrapper>
           </RoundWrapper>
           <RoundWrapper>
             <RoundTitleWrapper>
               <RoundTitle>Previous Round</RoundTitle>
-              <DateText></DateText>
             </RoundTitleWrapper>
-            <TableWrapper></TableWrapper>
+            <TableWrapper>
+              <MyPreviousTable />
+            </TableWrapper>
           </RoundWrapper>
         </BodyWrapper>
       </PageWrapper>
@@ -46,7 +53,7 @@ const PageTitle = styled.div(() => [
   `,
 ]);
 const BodyWrapper = tw.div`
-  flex flex-col gap-60 items-center
+  flex flex-col gap-60 items-center pb-200
 `;
 
 const RoundWrapper = tw.div`
