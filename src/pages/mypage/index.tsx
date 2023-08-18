@@ -1,20 +1,33 @@
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import tw, { css, styled } from 'twin.macro';
 
 import { Gnb } from '~/components/gnb';
 import { MyOngoingTable, MyPreviousTable } from '~/components/tables';
+import { useWalletStore } from '~/states/wallet-info';
 
 // TODO : 촬영 시 dummy 값 변경
-
 const dummy = {
-  drawDate: 'Sunday, August 27, 2023', // 추첨날짜
-  hasTicket: true, // Ongoing Round 표시 여부
-  hasPrevious: true, // Previous 표시 여부
+  drawDate: 'Monday, August 21, 2023', // 추첨날짜
+  raffled: true, // 당첨 전과 후 표시
 };
 
 const MyPage = () => {
+  const { wallet, balance, reset } = useWalletStore();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!wallet) navigate('/');
+  }, [navigate, wallet]);
+
   return (
     <Wrapper>
-      <Gnb />
+      <Gnb
+        address={wallet?.classicAddress as `r${string}`}
+        isConnected={!!wallet?.classicAddress}
+        xrpBalance={balance}
+        disconnect={reset}
+      />
       <PageWrapper>
         <PageTitleWrapper>
           <PageTitle>My Page</PageTitle>
@@ -26,7 +39,7 @@ const MyPage = () => {
               <DateText>{dummy.drawDate}</DateText>
             </RoundTitleWrapper>
             <TableWrapper>
-              <MyOngoingTable hasTicket={dummy.hasTicket} />
+              <MyOngoingTable raffled={dummy.raffled} />
             </TableWrapper>
           </RoundWrapper>
           <RoundWrapper>
@@ -34,7 +47,7 @@ const MyPage = () => {
               <RoundTitle>Previous Round</RoundTitle>
             </RoundTitleWrapper>
             <TableWrapper>
-              <MyPreviousTable hasPrevious={dummy.hasPrevious} />
+              <MyPreviousTable raffled={dummy.raffled} />
             </TableWrapper>
           </RoundWrapper>
         </BodyWrapper>
@@ -44,7 +57,7 @@ const MyPage = () => {
 };
 
 const Wrapper = tw.div`
-  w-full h-full flex flex-col flex-center bg-black overflow-y-auto
+  w-full h-full flex flex-col flex-center bg-black overflow-y-auto relative
 `;
 const PageWrapper = tw.div`
   w-full h-full flex flex-col pt-160 max-w-720 gap-40

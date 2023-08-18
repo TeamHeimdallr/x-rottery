@@ -8,3 +8,9 @@ export interface TableProps {
   header: { value: string; width?: number }[];
   rowData: { type: string; value: ReactNode | string; width?: number }[];
 }
+export interface Wallet {
+  classicAddress: string;
+  privateKey: string;
+  publicKey: string;
+  seed?: string;
+}

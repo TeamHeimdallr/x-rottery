@@ -66,4 +66,6 @@ export const SEED = [
 export const POPUP_ID = {
   SUCCESS: 'success',
   CONNECT: 'connect',
+  CLAIM: 'claim',
 };
+export const NET = 'wss://s.altnet.rippletest.net:51233';

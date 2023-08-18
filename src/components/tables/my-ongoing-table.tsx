@@ -6,21 +6,21 @@ import { DATE_FORMATTER } from '~/utils/time';
 
 import { FilledMediumButton } from '../buttons';
 import { SixNumbers } from '../six-numbers';
-
-const header = [
-  { value: 'Purchase Date', width: 160 },
-  { value: 'My Numbers', width: 504 },
-];
-
-// TODO : 메인페이지에서 슬롯 돌려서 나온 숫자로 변경, 날짜 변경
-const dummyColumns = [{ number: '5B112A', purchaseDate: '2023-08-18 20:44:12' }];
+import { newData } from './data';
 
 interface Props {
-  hasTicket?: boolean;
+  raffled?: boolean;
 }
 
-export const MyOngoingTable = ({ hasTicket }: Props) => {
+export const MyOngoingTable = ({ raffled }: Props) => {
   const navigate = useNavigate();
+  const onGoingData = raffled ? [] : [newData];
+
+  const header = [
+    { value: 'Purchase Date', width: 160 },
+    { value: 'My Numbers', width: 504 },
+  ];
+
   return (
     <Wrapper>
       <TableWrapper>
@@ -32,8 +32,8 @@ export const MyOngoingTable = ({ hasTicket }: Props) => {
           ))}
         </THead>
         <TBody>
-          {hasTicket ? (
-            dummyColumns.map((row, index) => {
+          {onGoingData?.length > 0 ? (
+            onGoingData.map((row, index) => {
               const { number, purchaseDate } = row;
               return (
                 <div key={index}>

@@ -1,9 +1,13 @@
 import { HTMLAttributes, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import tw, { css, styled } from 'twin.macro';
 import { useOnClickOutside } from 'usehooks-ts';
 
 import { COLOR } from '~/assets/colors';
 import logo from '~/assets/images/Logo.png';
+import { POPUP_ID } from '~/constants';
+import { usePopup } from '~/hooks/pages/use-popup';
+import { parseNumberWithComma } from '~/utils/number';
 import { truncateAddress } from '~/utils/string';
 
 import { FilledMediumButton } from '../buttons';
@@ -13,50 +17,53 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   isConnected?: boolean;
   address?: `r${string}`;
   xrpBalance?: string;
-  disConnect?: () => void;
+  disconnect?: () => void;
 }
 
-export const Gnb = ({ isConnected, address, xrpBalance, disConnect }: Props) => {
-  // no navigate in storybook, TODO: navigate
-  // const navigate = useNavigate();
+export const Gnb = ({ isConnected, address, xrpBalance, disconnect }: Props) => {
+  const navigate = useNavigate();
   const [dropdownOpened, dropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   useOnClickOutside(dropdownRef, () => dropdownOpen(false));
 
-  const handleDropdownClick = () => {
-    dropdownOpen(!dropdownOpened);
+  const { open } = usePopup(POPUP_ID.CONNECT);
+
+  const handleDisconnect = () => {
+    disconnect?.();
+    dropdownOpen(false);
   };
+
   return (
     <Wrapper>
-      <LogoWrapper onClick={() => console.log('mainpage')}>
+      <LogoWrapper onClick={() => navigate('/')}>
         <LogoImage src={logo} alt="logo" />
         <IconXrottery width={131} height={24} />
       </LogoWrapper>
       <ButtonWrapper>
-        {isConnected && <MypageButton onClick={() => console.log('mypage')}>My Page</MypageButton>}
+        {isConnected && <MypageButton onClick={() => navigate('/mypage')}>My Page</MypageButton>}
         {isConnected ? (
           <DropdownButtonWrapper>
-            <DropdownButton onClick={handleDropdownClick}>
+            <DropdownButton onClick={() => dropdownOpen(prev => !prev)}>
               <DropdownText>{truncateAddress(address)}</DropdownText>
             </DropdownButton>
             {dropdownOpened && (
               <OpenedDropdown ref={dropdownRef}>
-                <OpenedDropdownButton onClick={handleDropdownClick}>
+                <OpenedDropdownButton onClick={() => dropdownOpen(prev => !prev)}>
                   <DropdownText>{truncateAddress(address)}</DropdownText>
                 </OpenedDropdownButton>
                 <OpenedDropdownXrpWrapper>
-                  <XrpValue>{xrpBalance}</XrpValue>
+                  <XrpValue>{parseNumberWithComma(Number(xrpBalance))}</XrpValue>
                   <OpenedDropdownText>XRP</OpenedDropdownText>
                 </OpenedDropdownXrpWrapper>
                 <OpenedDropdownDisconnect>
                   <IconLogout width={20} height={20} color={COLOR.GRAY2} />
-                  <OpenedDropdownText onClick={disConnect}>Disconnect</OpenedDropdownText>
+                  <OpenedDropdownText onClick={handleDisconnect}>Disconnect</OpenedDropdownText>
                 </OpenedDropdownDisconnect>
               </OpenedDropdown>
             )}
           </DropdownButtonWrapper>
         ) : (
-          <FilledMediumButton text={'Connect Wallet'} onClick={() => console.log('connect')} />
+          <FilledMediumButton text={'Connect Wallet'} onClick={open} />
         )}
       </ButtonWrapper>
     </Wrapper>
@@ -64,7 +71,7 @@ export const Gnb = ({ isConnected, address, xrpBalance, disConnect }: Props) => 
 };
 
 const Wrapper = tw.div`
-  absolute top-0 left-0 w-full h-90 flex justify-between items-center px-20 py-24 bg-transparent z-10
+  fixed top-0 left-0 w-full h-90 flex justify-between items-center px-20 py-24 z-10 bg-black
 `;
 
 const LogoWrapper = tw.div`
