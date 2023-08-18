@@ -65,5 +65,5 @@ export const SEED = [
 
 export const POPUP_ID = {
   SUCCESS: 'success',
-  CLAIM: 'claim',
+  CONNECT: 'connect',
 };
