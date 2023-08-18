@@ -15,24 +15,25 @@ import { useWalletStore } from '~/states/wallet-info';
 import { parseNumberWithComma } from '~/utils/number';
 
 const MainPage = () => {
-  const { value, isLoading } = useSlotNumberAutoGeneratorStore();
+  const { value, isLoading, reset } = useSlotNumberAutoGeneratorStore();
   const { numbersRef, tick } = useSlotNumberAutoGenerator();
+
   const [price, setPrice] = useState(1000);
 
-  const { wallet, balance, reset } = useWalletStore();
+  const { wallet, balance, reset: disconnect } = useWalletStore();
 
   const [manualized, manualize] = useState(false);
   const isWallet = true;
 
   const handleClick = () => {
-    if (isWallet && !value) tick();
-    else if (isWallet && value) {
+    if (isWallet && !value) {
+      tick();
+    } else if (isWallet && value) {
       // const result = value.slice(-6);
-      // console.log('난수 결과값', result);
-      setPrice(12323);
+      // console.log('slot 결과값', result);
+      setPrice(prev => prev + 1000);
+      manualize(prev => !prev);
     }
-
-    //if(after buying ticket) reset();
   };
 
   return (
@@ -42,7 +43,7 @@ const MainPage = () => {
           address={wallet?.classicAddress as `r${string}`}
           isConnected={!!wallet?.classicAddress}
           xrpBalance={balance}
-          disconnect={reset}
+          disconnect={disconnect}
         />
         <Section1>
           <Article>
@@ -56,7 +57,7 @@ const MainPage = () => {
           {!manualized && (
             <>
               <SlotEffect src={slotEffect1} />
-              <SlotEffect isSecond src={slotEffect2} />
+              <SlotEffect secondEffect src={slotEffect2} />
             </>
           )}
           <SlotWrapper>
@@ -155,13 +156,13 @@ const Divider = tw.div`
 `;
 
 interface Props {
-  isSecond?: boolean;
+  secondEffect?: boolean;
   isBackground?: boolean;
 }
 
-const SlotEffect = styled.img<Props>(({ isSecond, isBackground }) => [
+const SlotEffect = styled.img<Props>(({ secondEffect, isBackground }) => [
   tw`absolute z-0`,
-  isSecond && tw`w-1440 h-810`,
+  secondEffect && tw`w-1440 h-810`,
   isBackground && tw`w-1440 h-810`,
 ]);
 
