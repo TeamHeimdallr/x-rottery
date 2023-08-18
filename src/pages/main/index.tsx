@@ -13,27 +13,28 @@ import { useSlotNumberAutoGeneratorStore } from '~/states/components/slot-number
 import { parseNumberWithComma } from '~/utils/number';
 
 const MainPage = () => {
-  const { value, isLoading } = useSlotNumberAutoGeneratorStore();
+  const { value, isLoading, reset } = useSlotNumberAutoGeneratorStore();
   const { numbersRef, tick } = useSlotNumberAutoGenerator();
+
   const [price, setPrice] = useState(1000);
 
   const [manualized, manualize] = useState(false);
   const isWallet = true;
 
   const handleClick = () => {
-    if (isWallet && !value) tick();
-    else if (isWallet && value) {
+    if (isWallet && !value) {
+      tick();
+    } else if (isWallet && value) {
       // const result = value.slice(-6);
-      // console.log('난수 결과값', result);
-      setPrice(12323);
+      // console.log('slot 결과값', result);
+      setPrice(prev => prev + 1000);
+      manualize(prev => !prev);
     }
-
-    //if(after buying ticket) reset();
   };
 
   return (
     <>
-      {/* TODO: add Gnb in here */}
+      {/* TODO: Add Gnb in here */}
       <Wrapper>
         <Section1>
           <Article>
@@ -47,7 +48,7 @@ const MainPage = () => {
           {!manualized && (
             <>
               <SlotEffect src={slotEffect1} />
-              <SlotEffect isSecond src={slotEffect2} />
+              <SlotEffect secondEffect src={slotEffect2} />
             </>
           )}
           <SlotWrapper>
@@ -146,13 +147,13 @@ const Divider = tw.div`
 `;
 
 interface Props {
-  isSecond?: boolean;
+  secondEffect?: boolean;
   isBackground?: boolean;
 }
 
-const SlotEffect = styled.img<Props>(({ isSecond, isBackground }) => [
+const SlotEffect = styled.img<Props>(({ secondEffect, isBackground }) => [
   tw`absolute z-0`,
-  isSecond && tw`w-1440 h-810`,
+  secondEffect && tw`w-1440 h-810`,
   isBackground && tw`w-1440 h-810`,
 ]);
 
