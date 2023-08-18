@@ -13,6 +13,7 @@ const header = [
   { value: 'Jackpot', width: 230 },
 ];
 
+// TODO : Previous Round 테이블 값 변경 (추첨 후 당첨확인시)
 const dummyColumns = [
   {
     number: '0A1B2C',

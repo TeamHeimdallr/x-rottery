@@ -15,9 +15,11 @@ const MyPage = () => {
           <RoundWrapper>
             <RoundTitleWrapper>
               <RoundTitle>Ongoing Round</RoundTitle>
-              <DateText>Draw Date: Sunday, August 20, 2023</DateText>
+              {/* TODO : Draw Date 변경 */}
+              <DateText>Draw Date: Sunday, August 27, 2023</DateText>
             </RoundTitleWrapper>
             <TableWrapper>
+              {/* TODO : Ongoing Round 비우려면 false 로 변경 */}
               <MyOngoingTable hasTicket={true} />
             </TableWrapper>
           </RoundWrapper>
@@ -26,6 +28,7 @@ const MyPage = () => {
               <RoundTitle>Previous Round</RoundTitle>
             </RoundTitleWrapper>
             <TableWrapper>
+              {/* TODO : Previous Round 비우려면 false 로 변경 */}
               <MyPreviousTable hasPrevious={true} />
             </TableWrapper>
           </RoundWrapper>

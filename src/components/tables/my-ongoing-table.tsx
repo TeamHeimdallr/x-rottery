@@ -1,4 +1,5 @@
 import { format } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
 import tw, { css, styled } from 'twin.macro';
 
 import { DATE_FORMATTER } from '~/utils/time';
@@ -11,13 +12,15 @@ const header = [
   { value: 'My Numbers', width: 504 },
 ];
 
-const dummyColumns = [{ number: '5B112A', winner: '0xd28f...abce', jackpot: 9999999 }];
+// TODO : 메인페이지에서 슬롯 돌려서 나온 숫자로 변경, 날짜 변경
+const dummyColumns = [{ number: '5B112A', purchaseDate: '2023-08-18 20:44:12' }];
 
 interface Props {
   hasTicket?: boolean;
 }
 
 export const MyOngoingTable = ({ hasTicket }: Props) => {
+  const navigate = useNavigate();
   return (
     <Wrapper>
       <TableWrapper>
@@ -31,13 +34,15 @@ export const MyOngoingTable = ({ hasTicket }: Props) => {
         <TBody>
           {hasTicket ? (
             dummyColumns.map((row, index) => {
-              const { number } = row;
+              const { number, purchaseDate } = row;
               return (
                 <div key={index}>
                   <Divider />
                   <Tr>
                     <Datas width={160}>
-                      <DateText>{format(Date.now(), DATE_FORMATTER.YYYY_MM_DD_HHMMSS)}</DateText>
+                      <DateText>
+                        {format(new Date(purchaseDate), DATE_FORMATTER.YYYY_MM_DD_HHMMSS)}
+                      </DateText>
                     </Datas>
                     <Datas width={504}>
                       <SixNumbers number={number} />
@@ -51,7 +56,7 @@ export const MyOngoingTable = ({ hasTicket }: Props) => {
               <Divider />
               <NoTicketWrapper>
                 <NoTicketText>No XRottery purchased yet.</NoTicketText>
-                <FilledMediumButton text={'Buy Ticket'} />
+                <FilledMediumButton text={'Buy Ticket'} onClick={() => navigate('/')} />
               </NoTicketWrapper>
             </>
           )}
