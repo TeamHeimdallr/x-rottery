@@ -1,5 +1,4 @@
 import { HTMLAttributes, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import tw, { css, styled } from 'twin.macro';
 import { useOnClickOutside } from 'usehooks-ts';
 

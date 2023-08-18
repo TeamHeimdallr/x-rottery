@@ -1,24 +1,25 @@
 import tw, { css, styled } from 'twin.macro';
 
 import { parseNumberWithComma } from '~/utils/number';
+import { truncateAddress } from '~/utils/string';
 
 import { SixNumbers } from '../six-numbers';
 
-const Header = [
+const header = [
   { value: 'Round', width: 60 },
   { value: 'Winning Numbers', width: 300 },
   { value: 'Jackpot', width: 144 },
   { value: 'Winner', width: 144 },
 ];
 
-const ColumnsDummy = [
-  { number: '0A1B2C', winner: '0xd28f...abce', jackpot: 9999999 },
-  { number: '0A1B2C', winner: '0xd28f...abce', jackpot: 9999999 },
-  { number: '83DD00', winner: '0xd28f...abce', jackpot: 9999999 },
-  { number: '4314A1', winner: '0xd28f...abce', jackpot: 9999999 },
-  { number: '55023C', winner: '0xd28f...abce', jackpot: 9999999 },
-  { number: '646517', winner: '0xd28f...abce', jackpot: 9999999 },
-  { number: 'DA214F', winner: '0xd28f...abce', jackpot: 9999999 },
+interface ColumnsProps {
+  number: string;
+  winner: `r${string}`;
+  jackpot: number;
+}
+
+const dummyColumns: ColumnsProps[] = [
+  { number: '0A1B2C', winner: `r3kmLJN5D28dHuH8vZNUZpMC43pEHpaocV`, jackpot: 9999999 },
 ];
 
 export const MainPreviousTable = () => {
@@ -26,21 +27,21 @@ export const MainPreviousTable = () => {
     <Wrapper>
       <TableWrapper>
         <THead>
-          {Header.map(h => (
+          {header.map(h => (
             <Datas key={h.value} width={h.width}>
               {h.value}
             </Datas>
           ))}
         </THead>
         <TBody>
-          {ColumnsDummy.map((row, index) => {
+          {dummyColumns.map((row, index) => {
             const { jackpot, number, winner } = row;
             return (
               <div key={index}>
                 <Divider />
                 <Tr>
                   <Datas width={60}>
-                    <RoundText>5</RoundText>
+                    <RoundText>1</RoundText>
                   </Datas>
                   <Datas width={300}>
                     <SixNumbers number={number} />
@@ -48,7 +49,7 @@ export const MainPreviousTable = () => {
                   <Datas width={144}>
                     <JackpotText>{parseNumberWithComma(jackpot)} XRP</JackpotText>
                   </Datas>
-                  <Datas width={144}>{winner}</Datas>
+                  <Datas width={144}>{truncateAddress(winner)}</Datas>
                 </Tr>
               </div>
             );
@@ -95,8 +96,8 @@ const Divider = tw.div`
   my-24 
 `;
 const RoundText = tw.div`
-  font-b-16
+  font-b-14
 `;
 const JackpotText = tw.div`
-  font-b-16 text-mint
+  font-b-14 text-mint
 `;

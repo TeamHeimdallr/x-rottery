@@ -5,19 +5,15 @@ import { DATE_FORMATTER } from '~/utils/time';
 
 import { SixNumbers } from '../six-numbers';
 
-const Header = [
+const header = [
   { value: 'Purchase Date', width: 160 },
   { value: 'My Numbers', width: 504 },
 ];
 
-const RowsDummy = [
+const dummyColumns = [
   { number: '0A1B2C', winner: '0xd28f...abce', jackpot: 9999999 },
   { number: '0A1B2C', winner: '0xd28f...abce', jackpot: 9999999 },
   { number: '83DD00', winner: '0xd28f...abce', jackpot: 9999999 },
-  { number: '4314A1', winner: '0xd28f...abce', jackpot: 9999999 },
-  { number: '55023C', winner: '0xd28f...abce', jackpot: 9999999 },
-  { number: '646517', winner: '0xd28f...abce', jackpot: 9999999 },
-  { number: 'DA214F', winner: '0xd28f...abce', jackpot: 9999999 },
 ];
 
 export const MyOngoingTable = () => {
@@ -25,14 +21,14 @@ export const MyOngoingTable = () => {
     <Wrapper>
       <TableWrapper>
         <THead>
-          {Header.map(h => (
+          {header.map(h => (
             <Datas key={h.value} width={h.width}>
               {h.value}
             </Datas>
           ))}
         </THead>
         <TBody>
-          {RowsDummy.map((row, index) => {
+          {dummyColumns.map((row, index) => {
             const { number } = row;
             return (
               <div key={index}>

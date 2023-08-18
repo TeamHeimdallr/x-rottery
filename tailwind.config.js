@@ -191,12 +191,7 @@ module.exports = {
           fontWeight: 700,
           fontFamily: 'Pretendard',
         },
-        '.font-b-16': {
-          fontSize: '16px',
-          lineHeight: '24px',
-          fontWeight: 700,
-          fontFamily: 'Pretendard',
-        },
+
         '.font-b-18': {
           fontSize: '18px',
           lineHeight: '26px',

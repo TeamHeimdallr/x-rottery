@@ -4,44 +4,38 @@ import tw, { css, styled } from 'twin.macro';
 import { parseNumberWithComma } from '~/utils/number';
 import { DATE_FORMATTER } from '~/utils/time';
 
-import { FilledMediumButton } from '../buttons';
 import { SixNumbers } from '../six-numbers';
 
-const Header = [
+const header = [
   { value: 'Purchase Date', width: 140 },
   { value: 'Round', width: 48 },
   { value: 'My Numbers', width: 230 },
   { value: 'Jackpot', width: 230 },
 ];
 
-const ColumnsDummy = [
+const dummyColumns = [
   { number: '0A1B2C', winner: '0xd28f...abce', jackpot: 9999999 },
   { number: '0A1B2C', winner: '0xd28f...abce', jackpot: 9999999 },
   { number: '83DD00', winner: '0xd28f...abce', jackpot: 9999999 },
-  { number: '4314A1', winner: '0xd28f...abce', jackpot: 9999999 },
-  { number: '55023C', winner: '0xd28f...abce', jackpot: 9999999 },
-  { number: '646517', winner: '0xd28f...abce', jackpot: 9999999 },
-  { number: 'DA214F', winner: '0xd28f...abce', jackpot: 9999999 },
 ];
 
 interface Props {
-  claimed?: boolean;
   isJackpot?: boolean;
 }
 
-export const MyPreviousTable = ({ isJackpot, claimed }: Props) => {
+export const MyPreviousTable = ({ isJackpot }: Props) => {
   return (
     <Wrapper>
       <TableWrapper>
         <THead>
-          {Header.map(h => (
+          {header.map(h => (
             <Datas key={h.value} width={h.width}>
               {h.value}
             </Datas>
           ))}
         </THead>
         <TBody>
-          {ColumnsDummy.map((row, index) => {
+          {dummyColumns.map((row, index) => {
             const { number, jackpot } = row;
             return (
               <div key={index}>
@@ -59,21 +53,7 @@ export const MyPreviousTable = ({ isJackpot, claimed }: Props) => {
                   <Datas width={230}>
                     <Container>
                       {isJackpot ? (
-                        claimed ? (
-                          <>
-                            <JackpotText>{parseNumberWithComma(jackpot)} XRP</JackpotText>
-                            <ButtonWrapper>
-                              <FilledMediumButton text="Claim" />
-                            </ButtonWrapper>
-                          </>
-                        ) : (
-                          <>
-                            <JackpotText>{parseNumberWithComma(jackpot)} XRP</JackpotText>
-                            <ButtonWrapper>
-                              <FilledMediumButton text="Claim" disabled />
-                            </ButtonWrapper>
-                          </>
-                        )
+                        <JackpotText>{parseNumberWithComma(jackpot)} XRP</JackpotText>
                       ) : (
                         <NothingToClaimText>Nothing to Claim</NothingToClaimText>
                       )}
@@ -129,14 +109,12 @@ const DateText = tw.div`
   font-r-14 text-gray2
 `;
 const RoundText = tw.div`
-  font-b-16
+  font-b-14
 `;
 const JackpotText = tw.div`
-  w-136 flex-center font-b-16 text-mint
+  w-136 flex-center font-b-14 text-mint
 `;
-const ButtonWrapper = tw.div`
-  w-86
-`;
+
 const Container = tw.div`
   flex-center gap-8
 `;
