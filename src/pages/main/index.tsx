@@ -29,6 +29,7 @@ const MainPage = () => {
     else if (isWallet && value) {
       // const result = value.slice(-6);
       // console.log('난수 결과값', result);
+      setPrice(12323);
     }
 
     //if(after buying ticket) reset();
