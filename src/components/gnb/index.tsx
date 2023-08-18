@@ -71,7 +71,7 @@ export const Gnb = ({ isConnected, address, xrpBalance, disconnect }: Props) => 
 };
 
 const Wrapper = tw.div`
-  absolute top-0 left-0 w-full h-90 flex justify-between items-center px-20 py-24 bg-transparent z-10
+  fixed top-0 left-0 w-full h-90 flex justify-between items-center px-20 py-24 z-10 bg-black
 `;
 
 const LogoWrapper = tw.div`

@@ -15,11 +15,10 @@ const OWNER_ADDRESS = 'rPucpCcAQH6mjJrL6PS4Cot2dD2WLoeZkA';
 
 const MainPage = () => {
   const { wallet, balance, reset } = useWalletStore();
+  const { opened } = usePopup(POPUP_ID.CONNECT);
 
   const [hash, setHash] = useState<string>();
   const [number, setNumber] = useState<string>();
-
-  const { opened } = usePopup(POPUP_ID.CONNECT);
 
   const buyTicket = async () => {
     if (!wallet?.classicAddress || !wallet.seed) return;
@@ -56,7 +55,6 @@ const MainPage = () => {
       <TextField placeholder="Set Number" onChange={e => setNumber(e.target.value)} />
       <FilledMediumButton text={'Buy Ticket'} onClick={buyTicket} />
       <TextWrapper>{hash}</TextWrapper>
-
       {opened && <ConnectPopup />}
     </Wrapper>
   );
