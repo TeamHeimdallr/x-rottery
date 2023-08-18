@@ -15,7 +15,7 @@ import { useWalletStore } from '~/states/wallet-info';
 import { parseNumberWithComma } from '~/utils/number';
 
 const MainPage = () => {
-  const { value, isLoading, reset } = useSlotNumberAutoGeneratorStore();
+  const { value, isLoading } = useSlotNumberAutoGeneratorStore();
   const { numbersRef, tick } = useSlotNumberAutoGenerator();
 
   const [price, setPrice] = useState(1000);
