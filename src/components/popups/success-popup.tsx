@@ -11,12 +11,17 @@ import { IconCheck } from '../icons';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   text?: string;
+  onClick?: () => void;
 }
 
-export const SuccessPopup = ({ text }: Props) => {
+export const SuccessPopup = ({ text, onClick }: Props) => {
   const popupRef = useRef<HTMLDivElement>(null);
   const { close } = usePopup(POPUP_ID.SUCCESS);
   useOnClickOutside(popupRef, close);
+  const handleClick = () => {
+    onClick?.();
+    close();
+  };
   return (
     <Wrapper>
       <PopupWrapper ref={popupRef}>
@@ -29,7 +34,7 @@ export const SuccessPopup = ({ text }: Props) => {
           <TextWrapper>{text}</TextWrapper>
         </SuccessWrapper>
         <ButtonWrapper>
-          <FilledMediumButton text="Done" onClick={close} />
+          <FilledMediumButton text="Done" onClick={handleClick} />
         </ButtonWrapper>
       </PopupWrapper>
       <Dim />
