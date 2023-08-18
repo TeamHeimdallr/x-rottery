@@ -1,10 +1,12 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import tw from 'twin.macro';
 import { useOnClickOutside } from 'usehooks-ts';
+import { Client, Wallet } from 'xrpl';
 
 import { COLOR } from '~/assets/colors';
-import { POPUP_ID } from '~/constants';
+import { NET, POPUP_ID } from '~/constants';
 import { usePopup } from '~/hooks/pages/use-popup';
+import { useWalletStore } from '~/states/wallet-info';
 
 import { FilledMediumButton } from '../buttons';
 import { CancelButton } from '../buttons/cancel-button';
@@ -16,6 +18,47 @@ export const ConnectPopup = () => {
   const { close } = usePopup(POPUP_ID.CONNECT);
   useOnClickOutside(popupRef, close);
 
+  const { setWallet, setBalance } = useWalletStore();
+  const [isLoading, setIsLoading] = useState<boolean>();
+  const [seed, setSeed] = useState<string>();
+
+  const connect = async () => {
+    setIsLoading(true);
+    const client = new Client(NET);
+    await client.connect();
+
+    return { client };
+  };
+
+  const connectWallet = async () => {
+    if (!seed) return;
+
+    const { client } = await connect();
+
+    const wallet = Wallet.fromSeed(seed);
+    const balance = await client.getXrpBalance(wallet.address);
+
+    setWallet(wallet);
+    setBalance(balance.toString());
+
+    client.disconnect();
+    close();
+  };
+
+  const createWallet = async () => {
+    const client = new Client(NET);
+    await client.connect();
+
+    const wallet = (await client.fundWallet(null)).wallet;
+    setWallet(wallet);
+
+    const balance = await client.getXrpBalance(wallet.address);
+    setBalance(balance.toString());
+
+    client.disconnect();
+    close();
+  };
+
   return (
     <Wrapper>
       <PopupWrapper ref={popupRef}>
@@ -26,15 +69,26 @@ export const ConnectPopup = () => {
               <CancelButton />
             </IconWrapper>
           </ConnectTitleWrapper>
-          <TextField placeholder="Enter your private key" />
+          <TextField
+            placeholder="Enter your private key"
+            onChange={e => setSeed(e.target.value)}
+            value={seed}
+          />
         </ConnectWrapper>
 
         <ButtonWrapper>
-          <FilledMediumButton text="Connect" onClick={close} />
-          <CreateWalletWrapper onClick={() => console.log('create wallet')}>
-            <IconWallet color={COLOR.GRAY2} width={20} height={20} />
-            <CreateWalletText>Create a new Wallet</CreateWalletText>
-          </CreateWalletWrapper>
+          <FilledMediumButton
+            text="Connect"
+            onClick={connectWallet}
+            isLoading={isLoading}
+            disabled={!seed}
+          />
+          {!isLoading && (
+            <CreateWalletWrapper onClick={createWallet}>
+              <IconWallet color={COLOR.GRAY2} width={20} height={20} />
+              <CreateWalletText>Create a new Wallet</CreateWalletText>
+            </CreateWalletWrapper>
+          )}
         </ButtonWrapper>
       </PopupWrapper>
       <Dim />

@@ -10,7 +10,7 @@ const meta = {
     isConnected: { control: { type: 'boolean' } },
     address: { control: { type: 'text' } },
     xrpBalance: { control: { type: 'text' } },
-    disConnect: { control: { type: 'function' } },
+    disconnect: { control: { type: 'function' } },
   },
 } satisfies Meta<typeof Gnb>;
 
@@ -22,6 +22,6 @@ export const _Gnb: Story = {
     isConnected: true,
     address: 'r3kmLJN5D28dHuH8vZNUZpMC43pEHpaocV',
     xrpBalance: '000,000.00',
-    disConnect: () => console.log('disconnect'),
+    disconnect: () => console.log('disconnect'),
   },
 };

@@ -34,8 +34,8 @@
     "react-router-dom": "^6.14.2",
     "usehooks-ts": "^2.9.1",
     "viem": "^1.4.1",
-    "zustand": "^4.3.9",
-    "xrpl": "^2.10.0"
+    "xrpl": "^2.10.0",
+    "zustand": "^4.3.9"
   },
   "devDependencies": {
     "@babel/core": "^7.22.9",
@@ -64,9 +64,9 @@
     "eslint-plugin-react": "^7.33.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-simple-import-sort": "^10.0.0",
-    "husky": "^8.0.0",
     "events": "^3.3.0",
     "https-browserify": "^1.0.0",
+    "husky": "^8.0.0",
     "prettier": "^3.0.0",
     "prettier-plugin-tailwindcss": "^0.4.1",
     "rollup-plugin-node-polyfills": "^0.2.1",
