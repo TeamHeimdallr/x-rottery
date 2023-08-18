@@ -1,4 +1,4 @@
-import { HTMLAttributes, MutableRefObject, useEffect } from 'react';
+import { HTMLAttributes, MutableRefObject } from 'react';
 import tw, { css, styled } from 'twin.macro';
 
 import { COLOR } from '~/assets/colors';
