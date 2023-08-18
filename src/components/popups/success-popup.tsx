@@ -1,4 +1,4 @@
-import { HTMLAttributes, useRef } from 'react';
+import { useRef } from 'react';
 import tw, { css, styled } from 'twin.macro';
 import { useOnClickOutside } from 'usehooks-ts';
 
@@ -9,7 +9,7 @@ import { usePopup } from '~/hooks/pages/use-popup';
 import { FilledMediumButton } from '../buttons';
 import { IconCheck } from '../icons';
 
-interface Props extends HTMLAttributes<HTMLDivElement> {
+interface Props {
   text?: string;
   onClick?: () => void;
 }
