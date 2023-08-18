@@ -3,6 +3,14 @@ import tw, { css, styled } from 'twin.macro';
 import { Gnb } from '~/components/gnb';
 import { MyOngoingTable, MyPreviousTable } from '~/components/tables';
 
+// TODO : 촬영 시 dummy 값 변경
+
+const dummy = {
+  drawDate: 'Sunday, August 27, 2023', // 추첨날짜
+  hasTicket: true, // Ongoing Round 표시 여부
+  hasPrevious: true, // Previous 표시 여부
+};
+
 const MyPage = () => {
   return (
     <Wrapper>
@@ -15,12 +23,10 @@ const MyPage = () => {
           <RoundWrapper>
             <RoundTitleWrapper>
               <RoundTitle>Ongoing Round</RoundTitle>
-              {/* TODO : Draw Date 변경 */}
-              <DateText>Draw Date: Sunday, August 27, 2023</DateText>
+              <DateText>{dummy.drawDate}</DateText>
             </RoundTitleWrapper>
             <TableWrapper>
-              {/* TODO : Ongoing Round 비우려면 false 로 변경 */}
-              <MyOngoingTable hasTicket={true} />
+              <MyOngoingTable hasTicket={dummy.hasTicket} />
             </TableWrapper>
           </RoundWrapper>
           <RoundWrapper>
@@ -28,8 +34,7 @@ const MyPage = () => {
               <RoundTitle>Previous Round</RoundTitle>
             </RoundTitleWrapper>
             <TableWrapper>
-              {/* TODO : Previous Round 비우려면 false 로 변경 */}
-              <MyPreviousTable hasPrevious={true} />
+              <MyPreviousTable hasPrevious={dummy.hasPrevious} />
             </TableWrapper>
           </RoundWrapper>
         </BodyWrapper>
