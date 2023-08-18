@@ -42,9 +42,9 @@ const Wrapper = styled.button<ButtonProps>(({ isLoading }) => [
   tw`
     h-58 px-32 py-16 flex-center relative
     rounded-8 clickable main-gradient text-white
-    hover:(text-pink bg-none box-shadow)
+    hover:(text-pink bg-none bg-white box-shadow)
   `,
-  isLoading && tw`non-clickable bg-none hover:(shadow-none)`,
+  isLoading && tw`non-clickable bg-none bg-white hover:(shadow-none)`,
 ]);
 
 const TextWrapper = styled.div<ButtonProps>(({ isLoading }) => [

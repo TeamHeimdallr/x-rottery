@@ -1,7 +1,7 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
 const plugin = require('tailwindcss/plugin');
 
-const spacing = [...[...Array(1001).keys()], 0.5];
+const spacing = [...[...Array(1801).keys()], 0.5];
 
 const convertSpacing = spacing =>
   [...new Set(spacing)].reduce((res, space) => {
@@ -155,7 +155,6 @@ module.exports = {
           transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
           transitionDuration: '150ms',
         },
-
         '.main-gradient': {
           background: 'linear-gradient(315deg, #9744FF 0%, #FF36FF 100%)',
         },

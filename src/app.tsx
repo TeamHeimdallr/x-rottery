@@ -4,7 +4,7 @@ import tw from 'twin.macro';
 
 const MainPage = lazy(() => import('./pages/main'));
 
-const RouteWrapper = tw.main`relative w-full h-full`;
+const RouteWrapper = tw.main`relative w-full bg-black flex justify-center`;
 const App = () => {
   return (
     <Suspense fallback={<></>}>
