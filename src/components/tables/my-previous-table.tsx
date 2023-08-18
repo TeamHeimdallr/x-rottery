@@ -14,16 +14,27 @@ const header = [
 ];
 
 const dummyColumns = [
-  { number: '0A1B2C', winner: '0xd28f...abce', jackpot: 9999999 },
-  { number: '0A1B2C', winner: '0xd28f...abce', jackpot: 9999999 },
-  { number: '83DD00', winner: '0xd28f...abce', jackpot: 9999999 },
+  {
+    number: '0A1B2C',
+    winner: '0xd28f...abce',
+    jackpot: 9999999,
+    isJactpot: false,
+    purchaseDate: '2023-08-09 20:44:12',
+  },
+  {
+    number: '83DD00',
+    winner: '0xd28f...abce',
+    jackpot: 9999999,
+    isJackpot: true,
+    purchaseDate: '2023-08-10 13:12:57',
+  },
 ];
 
 interface Props {
-  isJackpot?: boolean;
+  hasPrevious?: boolean;
 }
 
-export const MyPreviousTable = ({ isJackpot }: Props) => {
+export const MyPreviousTable = ({ hasPrevious }: Props) => {
   return (
     <Wrapper>
       <TableWrapper>
@@ -35,34 +46,43 @@ export const MyPreviousTable = ({ isJackpot }: Props) => {
           ))}
         </THead>
         <TBody>
-          {dummyColumns.map((row, index) => {
-            const { number, jackpot } = row;
-            return (
-              <div key={index}>
-                <Divider />
-                <Tr>
-                  <Datas width={140}>
-                    <DateText>{format(Date.now(), DATE_FORMATTER.YYYY_MM_DD_HHMMSS)}</DateText>
-                  </Datas>
-                  <Datas width={48}>
-                    <RoundText>{index + 1}</RoundText>
-                  </Datas>
-                  <Datas width={230}>
-                    <SixNumbers number={number} />
-                  </Datas>
-                  <Datas width={230}>
-                    <Container>
-                      {isJackpot ? (
-                        <JackpotText>{parseNumberWithComma(jackpot)} XRP</JackpotText>
-                      ) : (
-                        <NothingToClaimText>Nothing to Claim</NothingToClaimText>
-                      )}
-                    </Container>
-                  </Datas>
-                </Tr>
-              </div>
-            );
-          })}
+          {hasPrevious ? (
+            dummyColumns.map((row, index) => {
+              const { number, jackpot, isJackpot, purchaseDate } = row;
+              return (
+                <div key={index}>
+                  <Divider />
+                  <Tr>
+                    <Datas width={140}>
+                      <DateText>
+                        {format(new Date(purchaseDate), DATE_FORMATTER.YYYY_MM_DD_HHMMSS)}
+                      </DateText>
+                    </Datas>
+                    <Datas width={48}>
+                      <RoundText>1</RoundText>
+                    </Datas>
+                    <Datas width={230}>
+                      <SixNumbers number={number} />
+                    </Datas>
+                    <Datas width={230}>
+                      <Container>
+                        {isJackpot ? (
+                          <JackpotText>{parseNumberWithComma(jackpot)} XRP</JackpotText>
+                        ) : (
+                          <NothingToClaimText>Try next time</NothingToClaimText>
+                        )}
+                      </Container>
+                    </Datas>
+                  </Tr>
+                </div>
+              );
+            })
+          ) : (
+            <>
+              <Divider />
+              <NoPreviousWrapper>No XRottery</NoPreviousWrapper>
+            </>
+          )}
         </TBody>
       </TableWrapper>
     </Wrapper>
@@ -120,4 +140,7 @@ const Container = tw.div`
 `;
 const NothingToClaimText = tw.span`
   font-b-14 text-gray3 
+`;
+const NoPreviousWrapper = tw.div`
+  w-full flex-center pb-16
 `;

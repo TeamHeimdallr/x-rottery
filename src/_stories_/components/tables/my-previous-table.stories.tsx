@@ -6,7 +6,7 @@ const meta = {
   title: 'Components/MyPreviousTable',
   component: MyPreviousTable,
   argTypes: {
-    isJackpot: { control: 'boolean' },
+    hasPrevious: { control: 'boolean' },
   },
 } satisfies Meta<typeof MyPreviousTable>;
 

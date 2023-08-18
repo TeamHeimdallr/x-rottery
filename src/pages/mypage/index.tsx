@@ -18,7 +18,7 @@ const MyPage = () => {
               <DateText>Draw Date: Sunday, August 20, 2023</DateText>
             </RoundTitleWrapper>
             <TableWrapper>
-              <MyOngoingTable />
+              <MyOngoingTable hasTicket={true} />
             </TableWrapper>
           </RoundWrapper>
           <RoundWrapper>
@@ -26,7 +26,7 @@ const MyPage = () => {
               <RoundTitle>Previous Round</RoundTitle>
             </RoundTitleWrapper>
             <TableWrapper>
-              <MyPreviousTable />
+              <MyPreviousTable hasPrevious={true} />
             </TableWrapper>
           </RoundWrapper>
         </BodyWrapper>
