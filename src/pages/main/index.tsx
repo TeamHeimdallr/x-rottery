@@ -1,71 +1,167 @@
 import { useState } from 'react';
-import tw from 'twin.macro';
-import { Client, Wallet, xrpToDrops } from 'xrpl';
+import tw, { css, styled } from 'twin.macro';
 
-import { FilledMediumButton } from '~/components/buttons';
+import slotBg from '~/assets/images/slot-bg.png';
+import slotEffect1 from '~/assets/images/slot-effect-1.png';
+import slotEffect2 from '~/assets/images/slot-effect-2.png';
+import { FilledLargeButton, TextButton } from '~/components/buttons';
 import { Gnb } from '~/components/gnb';
-import { ConnectPopup } from '~/components/popups/connect-popup';
-import { TextField } from '~/components/text-field';
-import { NET, POPUP_ID } from '~/constants';
-import { usePopup } from '~/hooks/pages/use-popup';
+import { SlotNumberAutoGenerator } from '~/components/slot-number/auto-generator';
+import { SlotNumberManualInput } from '~/components/slot-number/manual-input';
+import { MainPreviousTable } from '~/components/tables';
+import { useSlotNumberAutoGenerator } from '~/hooks/pages/use-slot-number-auto-generate';
+import { useSlotNumberAutoGeneratorStore } from '~/states/components/slot-number-auto.generate';
 import { useWalletStore } from '~/states/wallet-info';
-
-const DEPOSIT = 1;
-const OWNER_ADDRESS = 'rPucpCcAQH6mjJrL6PS4Cot2dD2WLoeZkA';
+import { parseNumberWithComma } from '~/utils/number';
 
 const MainPage = () => {
+  const { value, isLoading } = useSlotNumberAutoGeneratorStore();
+  const { numbersRef, tick } = useSlotNumberAutoGenerator();
+  const [price, setPrice] = useState(1000);
+
   const { wallet, balance, reset } = useWalletStore();
-  const { opened } = usePopup(POPUP_ID.CONNECT);
 
-  const [hash, setHash] = useState<string>();
-  const [number, setNumber] = useState<string>();
+  const [manualized, manualize] = useState(false);
+  const isWallet = true;
 
-  const buyTicket = async () => {
-    if (!wallet?.classicAddress || !wallet.seed) return;
-    const client = new Client(NET);
-    await client.connect();
+  const handleClick = () => {
+    if (isWallet && !value) tick();
+    else if (isWallet && value) {
+      // const result = value.slice(-6);
+      // console.log('난수 결과값', result);
+    }
 
-    const prepared = await client.autofill({
-      TransactionType: 'Payment',
-      Account: wallet?.classicAddress,
-      Amount: xrpToDrops(DEPOSIT),
-      Destination: OWNER_ADDRESS,
-      Memos: [{ Memo: { MemoData: number } }],
-    });
-
-    const signed = Wallet.fromSeed(wallet.seed).sign(prepared);
-    const tx = await client.submitAndWait(signed.tx_blob);
-
-    console.log(tx);
-
-    setHash(tx.result.hash);
-
-    client.disconnect();
+    //if(after buying ticket) reset();
   };
 
   return (
-    <Wrapper>
-      <Gnb
-        address={wallet?.classicAddress as `r${string}`}
-        isConnected={!!wallet?.classicAddress}
-        xrpBalance={balance}
-        disconnect={reset}
-      />
-
-      <TextField placeholder="Set Number" onChange={e => setNumber(e.target.value)} />
-      <FilledMediumButton text={'Buy Ticket'} onClick={buyTicket} />
-      <TextWrapper>{hash}</TextWrapper>
-      {opened && <ConnectPopup />}
-    </Wrapper>
+    <>
+      <Wrapper>
+        <Gnb
+          address={wallet?.classicAddress as `r${string}`}
+          isConnected={!!wallet?.classicAddress}
+          xrpBalance={balance}
+          disconnect={reset}
+        />
+        <Section1>
+          <Article>
+            <TitleWrapper>
+              <TitleText>estimated jackpot</TitleText>
+              <JackpotText>{parseNumberWithComma(price)} XRP</JackpotText>
+              <DateText>Draw Date:Friday, July 28, 2023</DateText>
+            </TitleWrapper>
+          </Article>
+          <SlotEffect isBackground src={slotBg} />
+          {!manualized && (
+            <>
+              <SlotEffect src={slotEffect1} />
+              <SlotEffect isSecond src={slotEffect2} />
+            </>
+          )}
+          <SlotWrapper>
+            {manualized ? (
+              <SlotNumberManualInput />
+            ) : (
+              <SlotNumberAutoGenerator numbersRef={numbersRef} />
+            )}
+          </SlotWrapper>
+          <ButtonWrapper>
+            <FilledLargeButton
+              onClick={handleClick}
+              isLoading={isLoading}
+              text={isWallet ? (value ? 'Buy Ticket' : 'Spin Slots!') : 'Connect Wallet'}
+            />
+          </ButtonWrapper>
+        </Section1>
+        <Section2>
+          {isWallet && (
+            <div>
+              <Divider />
+              <TextButton
+                onClick={() => manualize(prev => !prev)}
+                text={manualized ? 'Spin Slots' : 'Enter Manually'}
+              />
+            </div>
+          )}
+          <TableWrapper>
+            <RoundText>Previous Round</RoundText>
+            <MainPreviousTable />
+          </TableWrapper>
+        </Section2>
+      </Wrapper>
+    </>
   );
 };
 
 const Wrapper = tw.div`
-  bg-gray5 flex flex-col gap-10 p-20 rounded-10 pt-90 relative
+  w-full flex flex-col items-center
+  relative 
 `;
 
-const TextWrapper = tw.div`
-  text-white
+const Section1 = tw.section`
+  mt-90 w-1440 min-h-810 bg-center bg-cover bg-no-repeat flex flex-col relative
+  flex flex-col justify-between
 `;
+
+const Section2 = tw.section`
+  w-1440 min-h-810 h-full pb-196
+  flex flex-col items-center gap-120
+`;
+
+const SlotWrapper = tw.div`
+  flex flex-center absolute
+  top-400 inset-x-1/2
+`;
+
+const Article = tw.article`
+  flex flex-col gap-10 relative z-1
+`;
+const TitleWrapper = tw.div`
+  flex flex-col flex-center
+  py-24 px-50
+`;
+
+const TitleText = tw.div`
+  font-dela-b-16 text-white uppercase
+`;
+
+const JackpotText = tw.div`
+  font-dela-b-40 text-mint
+`;
+
+const DateText = tw.div`
+  font-b-14 text-white
+`;
+
+const ButtonWrapper = tw.div`
+  flex flex-center mb-20
+`;
+
+const RoundText = styled.div(() => [
+  tw`
+    font-dela-b-28 text-mint text-center
+  `,
+  css`
+    text-shadow: 0px 0px 24px #4ef6d8;
+  `,
+]);
+
+const TableWrapper = tw.div`
+  flex flex-col gap-40
+`;
+const Divider = tw.div`
+  mt-4
+`;
+
+interface Props {
+  isSecond?: boolean;
+  isBackground?: boolean;
+}
+
+const SlotEffect = styled.img<Props>(({ isSecond, isBackground }) => [
+  tw`absolute z-0`,
+  isSecond && tw`w-1440 h-810`,
+  isBackground && tw`w-1440 h-810`,
+]);
 
 export default MainPage;
