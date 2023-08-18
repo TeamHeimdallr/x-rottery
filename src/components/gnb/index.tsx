@@ -26,11 +26,12 @@ export const Gnb = ({ isConnected, address, xrpBalance, disconnect }: Props) => 
   const dropdownRef = useRef<HTMLDivElement>(null);
   useOnClickOutside(dropdownRef, () => dropdownOpen(false));
 
-  const handleDropdownClick = () => {
-    dropdownOpen(!dropdownOpened);
-  };
-
   const { open } = usePopup(POPUP_ID.CONNECT);
+
+  const handleDisconnect = () => {
+    disconnect?.();
+    dropdownOpen(false);
+  };
 
   return (
     <Wrapper>
@@ -42,12 +43,12 @@ export const Gnb = ({ isConnected, address, xrpBalance, disconnect }: Props) => 
         {isConnected && <MypageButton onClick={() => navigate('/mypage')}>My Page</MypageButton>}
         {isConnected ? (
           <DropdownButtonWrapper>
-            <DropdownButton onClick={handleDropdownClick}>
+            <DropdownButton onClick={() => dropdownOpen(prev => !prev)}>
               <DropdownText>{truncateAddress(address)}</DropdownText>
             </DropdownButton>
             {dropdownOpened && (
               <OpenedDropdown ref={dropdownRef}>
-                <OpenedDropdownButton onClick={handleDropdownClick}>
+                <OpenedDropdownButton onClick={() => dropdownOpen(prev => !prev)}>
                   <DropdownText>{truncateAddress(address)}</DropdownText>
                 </OpenedDropdownButton>
                 <OpenedDropdownXrpWrapper>
@@ -56,7 +57,7 @@ export const Gnb = ({ isConnected, address, xrpBalance, disconnect }: Props) => 
                 </OpenedDropdownXrpWrapper>
                 <OpenedDropdownDisconnect>
                   <IconLogout width={20} height={20} color={COLOR.GRAY2} />
-                  <OpenedDropdownText onClick={disconnect}>Disconnect</OpenedDropdownText>
+                  <OpenedDropdownText onClick={handleDisconnect}>Disconnect</OpenedDropdownText>
                 </OpenedDropdownDisconnect>
               </OpenedDropdown>
             )}

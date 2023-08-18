@@ -19,44 +19,41 @@ export const ConnectPopup = () => {
   useOnClickOutside(popupRef, close);
 
   const { setWallet, setBalance } = useWalletStore();
-  const [isLoading, setIsLoading] = useState<boolean>();
+  const [connectingLoading, setConnectingLoading] = useState<boolean>();
+  const [creatingLoading, setCreatingLoading] = useState<boolean>();
+
   const [seed, setSeed] = useState<string>();
 
-  const connect = async () => {
-    setIsLoading(true);
+  const connect = async (mode: string) => {
+    if (mode === 'connect') {
+      setConnectingLoading(true);
+    } else setCreatingLoading(true);
+
     const client = new Client(NET);
     await client.connect();
 
     return { client };
   };
 
-  const connectWallet = async () => {
-    if (!seed) return;
-
-    const { client } = await connect();
-
-    const wallet = Wallet.fromSeed(seed);
+  const getWalletInfo = async (client: Client, wallet: Wallet) => {
     const balance = await client.getXrpBalance(wallet.address);
-
     setWallet(wallet);
     setBalance(balance.toString());
-
     client.disconnect();
     close();
   };
 
+  const connectWallet = async () => {
+    if (!seed) return;
+    const { client } = await connect('connect');
+    const wallet = Wallet.fromSeed(seed);
+    await getWalletInfo(client, wallet);
+  };
+
   const createWallet = async () => {
-    const client = new Client(NET);
-    await client.connect();
-
+    const { client } = await connect('create');
     const wallet = (await client.fundWallet(null)).wallet;
-    setWallet(wallet);
-
-    const balance = await client.getXrpBalance(wallet.address);
-    setBalance(balance.toString());
-
-    client.disconnect();
-    close();
+    await getWalletInfo(client, wallet);
   };
 
   return (
@@ -80,10 +77,10 @@ export const ConnectPopup = () => {
           <FilledMediumButton
             text="Connect"
             onClick={connectWallet}
-            isLoading={isLoading}
-            disabled={!seed}
+            isLoading={connectingLoading}
+            disabled={!seed || creatingLoading}
           />
-          {!isLoading && (
+          {!connectingLoading && (
             <CreateWalletWrapper onClick={createWallet}>
               <IconWallet color={COLOR.GRAY2} width={20} height={20} />
               <CreateWalletText>Create a new Wallet</CreateWalletText>
@@ -127,7 +124,7 @@ const ButtonWrapper = tw.div`
 `;
 
 const CreateWalletWrapper = tw.div`
-  flex gap-4 clickable
+  flex gap-4 clickable relative
 `;
 
 const CreateWalletText = tw.div`
