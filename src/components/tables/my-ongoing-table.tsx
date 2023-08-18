@@ -1,8 +1,10 @@
 import { format } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
 import tw, { css, styled } from 'twin.macro';
 
 import { DATE_FORMATTER } from '~/utils/time';
 
+import { FilledMediumButton } from '../buttons';
 import { SixNumbers } from '../six-numbers';
 
 const header = [
@@ -10,13 +12,15 @@ const header = [
   { value: 'My Numbers', width: 504 },
 ];
 
-const dummyColumns = [
-  { number: '0A1B2C', winner: '0xd28f...abce', jackpot: 9999999 },
-  { number: '0A1B2C', winner: '0xd28f...abce', jackpot: 9999999 },
-  { number: '83DD00', winner: '0xd28f...abce', jackpot: 9999999 },
-];
+// TODO : 메인페이지에서 슬롯 돌려서 나온 숫자로 변경, 날짜 변경
+const dummyColumns = [{ number: '5B112A', purchaseDate: '2023-08-18 20:44:12' }];
 
-export const MyOngoingTable = () => {
+interface Props {
+  hasTicket?: boolean;
+}
+
+export const MyOngoingTable = ({ hasTicket }: Props) => {
+  const navigate = useNavigate();
   return (
     <Wrapper>
       <TableWrapper>
@@ -28,22 +32,34 @@ export const MyOngoingTable = () => {
           ))}
         </THead>
         <TBody>
-          {dummyColumns.map((row, index) => {
-            const { number } = row;
-            return (
-              <div key={index}>
-                <Divider />
-                <Tr>
-                  <Datas width={160}>
-                    <DateText>{format(Date.now(), DATE_FORMATTER.YYYY_MM_DD_HHMMSS)}</DateText>
-                  </Datas>
-                  <Datas width={504}>
-                    <SixNumbers number={number} />
-                  </Datas>
-                </Tr>
-              </div>
-            );
-          })}
+          {hasTicket ? (
+            dummyColumns.map((row, index) => {
+              const { number, purchaseDate } = row;
+              return (
+                <div key={index}>
+                  <Divider />
+                  <Tr>
+                    <Datas width={160}>
+                      <DateText>
+                        {format(new Date(purchaseDate), DATE_FORMATTER.YYYY_MM_DD_HHMMSS)}
+                      </DateText>
+                    </Datas>
+                    <Datas width={504}>
+                      <SixNumbers number={number} />
+                    </Datas>
+                  </Tr>
+                </div>
+              );
+            })
+          ) : (
+            <>
+              <Divider />
+              <NoTicketWrapper>
+                <NoTicketText>No XRottery purchased yet.</NoTicketText>
+                <FilledMediumButton text={'Buy Ticket'} onClick={() => navigate('/')} />
+              </NoTicketWrapper>
+            </>
+          )}
         </TBody>
       </TableWrapper>
     </Wrapper>
@@ -87,4 +103,10 @@ const Divider = tw.div`
 `;
 const DateText = tw.div`
   font-r-14 text-gray2
+`;
+const NoTicketWrapper = tw.div`
+  w-full flex flex-col gap-24 items-center pb-16
+`;
+const NoTicketText = tw.div`
+  font-r-14 text-white
 `;
