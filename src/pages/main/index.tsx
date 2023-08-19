@@ -1,3 +1,4 @@
+import { format } from 'date-fns';
 import { useState } from 'react';
 import tw, { css, styled } from 'twin.macro';
 import { Client, Wallet, xrpToDrops } from 'xrpl';
@@ -12,28 +13,29 @@ import { SuccessPopup } from '~/components/popups/success-popup';
 import { SlotNumberAutoGenerator } from '~/components/slot-number/auto-generator';
 import { SlotNumberManualInput } from '~/components/slot-number/manual-input';
 import { MainPreviousTable } from '~/components/tables';
-import { NET, POPUP_ID } from '~/constants';
+import { NET, POPUP_ID, RAFFLED } from '~/constants';
 import { usePopup } from '~/hooks/pages/use-popup';
 import { useSlotNumberAutoGenerator } from '~/hooks/pages/use-slot-number-auto-generate';
 import { useSlotNumberAutoGeneratorStore } from '~/states/components/slot-number-auto.generate';
+import { useTicketStore } from '~/states/ticket-info';
 import { useWalletStore } from '~/states/wallet-info';
 import { parseNumberWithComma } from '~/utils/number';
+import { DATE_FORMATTER } from '~/utils/time';
 
+// TODO : deposit 1000으로 수정 owner_address 수정
 const DEPOSIT = 1;
 const OWNER_ADDRESS = 'rPucpCcAQH6mjJrL6PS4Cot2dD2WLoeZkA';
 
 const MainPage = () => {
-  // TODO : 당첨 전후로 변경하기
-  const raffled = true;
-
   const { isLoading, value } = useSlotNumberAutoGeneratorStore();
   const { tick, numbersRef, reset } = useSlotNumberAutoGenerator();
 
-  const [price, setPrice] = useState(raffled ? 2000 : 1000);
+  const [price, setPrice] = useState(RAFFLED ? 0 : 1000);
 
   const { wallet, balance, reset: disconnect } = useWalletStore();
   const { opened } = usePopup(POPUP_ID.CONNECT);
   const { opened: openedSuccess, open: openSuccess } = usePopup(POPUP_ID.SUCCESS);
+  const { setTicket } = useTicketStore();
 
   const [manualized, manualize] = useState(false);
   const [buyingLoading, setBuyingLoading] = useState<boolean>();
@@ -64,16 +66,18 @@ const MainPage = () => {
     setBuyingLoading(false);
     client.disconnect();
     openSuccess();
+    setPrice(prev => prev + 1000);
+    setTicket({
+      round: 2,
+      number: value,
+      purchaseDate: format(new Date(), DATE_FORMATTER.YYYY_MM_DD_HHMMSS),
+    });
     reset();
   };
 
-  const handleClick = () => {
-    if (wallet && !value) {
-      tick();
-    } else if (wallet && value) {
-      setPrice(prev => prev + 1000);
-      buyTicket();
-    }
+  const handleClick = async () => {
+    if (!wallet) return;
+    value ? await buyTicket() : tick();
   };
 
   return (
@@ -127,7 +131,7 @@ const MainPage = () => {
           )}
           <TableWrapper>
             <RoundText>Previous Round</RoundText>
-            <MainPreviousTable raffled={raffled} />
+            <MainPreviousTable raffled={RAFFLED} />
           </TableWrapper>
         </Section2>
       </Wrapper>

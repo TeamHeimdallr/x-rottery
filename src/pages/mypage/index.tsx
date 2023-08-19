@@ -4,13 +4,13 @@ import tw, { css, styled } from 'twin.macro';
 
 import { Gnb } from '~/components/gnb';
 import { MyOngoingTable, MyPreviousTable } from '~/components/tables';
+import { RAFFLED } from '~/constants';
 import { useWalletStore } from '~/states/wallet-info';
 
 // TODO : 촬영 시 testInfo 값 변경
 const testInfo = {
   drawDate: 'Monday, August 21, 2023', // 추첨날짜
-  raffled: true, // 당첨 전과 후 표시
-  winning: false,
+  raffled: RAFFLED, // 당첨 전과 후 표시
 };
 
 const MyPage = () => {
@@ -48,7 +48,7 @@ const MyPage = () => {
               <RoundTitle>Previous Round</RoundTitle>
             </RoundTitleWrapper>
             <TableWrapper>
-              <MyPreviousTable raffled={testInfo.raffled} winning={testInfo.winning} />
+              <MyPreviousTable raffled={testInfo.raffled} />
             </TableWrapper>
           </RoundWrapper>
         </BodyWrapper>

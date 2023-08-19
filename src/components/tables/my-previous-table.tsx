@@ -5,16 +5,14 @@ import { parseNumberWithComma } from '~/utils/number';
 import { DATE_FORMATTER } from '~/utils/time';
 
 import { SixNumbers } from '../six-numbers';
-import { previousData, testerNewData, winerNewData } from './data';
+import { previousData, winerNewData } from './data';
 
 interface Props {
   raffled?: boolean;
-  winning?: boolean;
 }
 
-export const MyPreviousTable = ({ raffled, winning }: Props) => {
-  const newData = winning ? winerNewData : testerNewData;
-  const data = raffled ? [newData, ...previousData] : previousData;
+export const MyPreviousTable = ({ raffled }: Props) => {
+  const data = raffled ? [winerNewData] : previousData;
 
   const header = [
     { value: 'Purchase Date', width: 140 },

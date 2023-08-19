@@ -1,17 +1,5 @@
-interface Round {
-  round: number;
-  number: string;
-  winner?: `r${string}`;
-  jackpot?: number;
-  purchaseDate?: string;
-}
+import { Round } from '~/types';
 
-// TODO : 메인페이지에서 슬롯 돌려서 나온 숫자로 변경, 날짜 변경
-export const testerNewData: Round = {
-  round: 2,
-  number: '83DD00',
-  purchaseDate: '2023-08-21 20:44:12',
-};
 // TODO : 당첨자 나온 숫자로 변경, 날짜 변경, winner 지갑으로 변경
 export const winerNewData: Round = {
   round: 2,
