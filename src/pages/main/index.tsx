@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import tw, { css, styled } from 'twin.macro';
 import { Client, Wallet, xrpToDrops } from 'xrpl';
 
@@ -27,8 +27,9 @@ const DEPOSIT = 1;
 const OWNER_ADDRESS = 'rPucpCcAQH6mjJrL6PS4Cot2dD2WLoeZkA';
 
 const MainPage = () => {
-  const { isLoading, value } = useSlotNumberAutoGeneratorStore();
-  const { tick, numbersRef, reset } = useSlotNumberAutoGenerator();
+  const { value } = useSlotNumberAutoGeneratorStore();
+  const [isLoading, setIsLoading] = useState<boolean>();
+  const { tick, reset, numbersRef } = useSlotNumberAutoGenerator();
 
   const [price, setPrice] = useState(RAFFLED ? 0 : 1000);
 
@@ -77,8 +78,18 @@ const MainPage = () => {
 
   const handleClick = async () => {
     if (!wallet) return;
-    value ? await buyTicket() : tick();
+    if (value) {
+      await buyTicket();
+      return;
+    }
+    tick();
+    setIsLoading(true);
   };
+
+  useEffect(() => {
+    if (!value) return;
+    setIsLoading(false);
+  }, [value]);
 
   return (
     <>
