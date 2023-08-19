@@ -10,5 +10,5 @@ const meta = {
 export default meta;
 
 export const Table = () => {
-  return <MainPreviousTable />;
+  return <MainPreviousTable raffled={false} />;
 };

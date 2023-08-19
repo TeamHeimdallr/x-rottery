@@ -5,13 +5,15 @@ import { parseNumberWithComma } from '~/utils/number';
 import { DATE_FORMATTER } from '~/utils/time';
 
 import { SixNumbers } from '../six-numbers';
-import { newData, previousData } from './data';
+import { previousData, testerNewData, winerNewData } from './data';
 
 interface Props {
   raffled?: boolean;
+  winning?: boolean;
 }
 
-export const MyPreviousTable = ({ raffled }: Props) => {
+export const MyPreviousTable = ({ raffled, winning }: Props) => {
+  const newData = winning ? winerNewData : testerNewData;
   const data = raffled ? [newData, ...previousData] : previousData;
 
   const header = [
@@ -33,8 +35,8 @@ export const MyPreviousTable = ({ raffled }: Props) => {
         </THead>
         <TBody>
           {data.map((row, index) => {
-            const { number, jackpot, isJackpot, purchaseDate, round } = row;
-            console.log(isJackpot);
+            const { number, jackpot, purchaseDate, round } = row;
+            if (!purchaseDate) return;
             return (
               <div key={index}>
                 <Divider />
@@ -52,7 +54,7 @@ export const MyPreviousTable = ({ raffled }: Props) => {
                   </Datas>
                   <Datas width={230}>
                     <Container>
-                      {isJackpot ? (
+                      {jackpot ? (
                         <JackpotText>{parseNumberWithComma(jackpot)} XRP</JackpotText>
                       ) : (
                         <NothingToClaimText>Try next time</NothingToClaimText>

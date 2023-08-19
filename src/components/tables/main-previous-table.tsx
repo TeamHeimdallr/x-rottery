@@ -4,6 +4,7 @@ import { parseNumberWithComma } from '~/utils/number';
 import { truncateAddress } from '~/utils/string';
 
 import { SixNumbers } from '../six-numbers';
+import { previousWinningData, winerNewData } from './data';
 
 const header = [
   { value: 'Round', width: 60 },
@@ -12,17 +13,11 @@ const header = [
   { value: 'Winner', width: 144 },
 ];
 
-interface ColumnsProps {
-  number: string;
-  winner: `r${string}`;
-  jackpot: number;
+interface Props {
+  raffled: boolean;
 }
-
-const dummyColumns: ColumnsProps[] = [
-  { number: '0A1B2C', winner: `r3kmLJN5D28dHuH8vZNUZpMC43pEHpaocV`, jackpot: 9999999 },
-];
-
-export const MainPreviousTable = () => {
+export const MainPreviousTable = ({ raffled }: Props) => {
+  const data = raffled ? [winerNewData, ...previousWinningData] : previousWinningData;
   return (
     <Wrapper>
       <TableWrapper>
@@ -34,14 +29,15 @@ export const MainPreviousTable = () => {
           ))}
         </THead>
         <TBody>
-          {dummyColumns.map((row, index) => {
-            const { jackpot, number, winner } = row;
+          {data.map((row, index) => {
+            const { jackpot, number, winner, round } = row;
+            if (!jackpot) return;
             return (
               <div key={index}>
                 <Divider />
                 <Tr>
                   <Datas width={60}>
-                    <RoundText>1</RoundText>
+                    <RoundText>{round}</RoundText>
                   </Datas>
                   <Datas width={300}>
                     <SixNumbers number={number} />

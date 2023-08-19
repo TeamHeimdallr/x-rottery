@@ -6,7 +6,7 @@ import { useSlotNumberAutoGeneratorStore } from '~/states/components/slot-number
 export const NUM_LENGTH = 6;
 
 export const useSlotNumberAutoGenerator = () => {
-  const { value, setValue, reset, setIsLoading } = useSlotNumberAutoGeneratorStore();
+  const { value, setValue, reset: resetValue, setIsLoading } = useSlotNumberAutoGeneratorStore();
 
   const delay = useRef<number>(1); // delay in ticks
   const tickCount = useRef<number>(10); // how many times it generates a number before moving on to the next
@@ -52,7 +52,7 @@ export const useSlotNumberAutoGenerator = () => {
       // end
       setIsLoading(false);
       const result = numbersRef.current.map(num => num?.innerHTML ?? '').join('');
-      setValue(result);
+      setValue(result.slice(0, 6));
       position.current = 0;
     }
   };
@@ -60,10 +60,23 @@ export const useSlotNumberAutoGenerator = () => {
   useEffect(() => {
     return () => {
       numbersRef.current = [];
-      reset();
+      resetValue();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return { tick, numbersRef, result };
+  const reset = () => {
+    for (let i = 0; i < NUM_LENGTH; i++) {
+      if (numbersRef.current?.[i]) {
+        const current = numbersRef.current?.[i];
+        if (current) {
+          current.innerHTML = '?';
+        }
+      }
+    }
+    resetValue();
+    console.log('reset!');
+  };
+
+  return { tick, numbersRef, result, reset };
 };

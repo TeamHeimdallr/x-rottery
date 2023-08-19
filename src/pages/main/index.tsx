@@ -1,38 +1,78 @@
 import { useState } from 'react';
 import tw, { css, styled } from 'twin.macro';
+import { Client, Wallet, xrpToDrops } from 'xrpl';
 
 import slotBg from '~/assets/images/slot-bg.png';
 import slotEffect1 from '~/assets/images/slot-effect-1.png';
 import slotEffect2 from '~/assets/images/slot-effect-2.png';
 import { FilledLargeButton, TextButton } from '~/components/buttons';
 import { Gnb } from '~/components/gnb';
+import { ConnectPopup } from '~/components/popups/connect-popup';
+import { SuccessPopup } from '~/components/popups/success-popup';
 import { SlotNumberAutoGenerator } from '~/components/slot-number/auto-generator';
 import { SlotNumberManualInput } from '~/components/slot-number/manual-input';
 import { MainPreviousTable } from '~/components/tables';
+import { NET, POPUP_ID } from '~/constants';
+import { usePopup } from '~/hooks/pages/use-popup';
 import { useSlotNumberAutoGenerator } from '~/hooks/pages/use-slot-number-auto-generate';
 import { useSlotNumberAutoGeneratorStore } from '~/states/components/slot-number-auto.generate';
 import { useWalletStore } from '~/states/wallet-info';
 import { parseNumberWithComma } from '~/utils/number';
 
-const MainPage = () => {
-  const { value, isLoading } = useSlotNumberAutoGeneratorStore();
-  const { numbersRef, tick } = useSlotNumberAutoGenerator();
+const DEPOSIT = 1;
+const OWNER_ADDRESS = 'rPucpCcAQH6mjJrL6PS4Cot2dD2WLoeZkA';
 
-  const [price, setPrice] = useState(1000);
+const MainPage = () => {
+  // TODO : 당첨 전후로 변경하기
+  const raffled = true;
+
+  const { isLoading, value } = useSlotNumberAutoGeneratorStore();
+  const { tick, numbersRef, reset } = useSlotNumberAutoGenerator();
+
+  const [price, setPrice] = useState(raffled ? 2000 : 1000);
 
   const { wallet, balance, reset: disconnect } = useWalletStore();
+  const { opened } = usePopup(POPUP_ID.CONNECT);
+  const { opened: openedSuccess, open: openSuccess } = usePopup(POPUP_ID.SUCCESS);
 
   const [manualized, manualize] = useState(false);
-  const isWallet = true;
+  const [buyingLoading, setBuyingLoading] = useState<boolean>();
+
+  const connect = async () => {
+    setBuyingLoading(true);
+    const client = new Client(NET);
+    await client.connect();
+    return { client };
+  };
+
+  const buyTicket = async () => {
+    if (!wallet?.classicAddress || !wallet.seed || !value) return;
+    const { client } = await connect();
+
+    const prepared = await client.autofill({
+      TransactionType: 'Payment',
+      Account: wallet?.classicAddress,
+      Amount: xrpToDrops(DEPOSIT),
+      Destination: OWNER_ADDRESS,
+      Memos: [{ Memo: { MemoData: value } }],
+    });
+
+    const signed = Wallet.fromSeed(wallet.seed).sign(prepared);
+    const tx = await client.submitAndWait(signed.tx_blob);
+    console.log(tx);
+
+    setBuyingLoading(false);
+    client.disconnect();
+    openSuccess();
+    reset();
+  };
 
   const handleClick = () => {
-    if (isWallet && !value) {
+    if (wallet && !value) {
       tick();
-    } else if (isWallet && value) {
-      // const result = value.slice(-6);
-      // console.log('slot 결과값', result);
+    } else if (wallet && value) {
       setPrice(prev => prev + 1000);
-      manualize(prev => !prev);
+      buyTicket();
     }
   };
 
@@ -70,13 +110,13 @@ const MainPage = () => {
           <ButtonWrapper>
             <FilledLargeButton
               onClick={handleClick}
-              isLoading={isLoading}
-              text={isWallet ? (value ? 'Buy Ticket' : 'Spin Slots!') : 'Connect Wallet'}
+              isLoading={isLoading || buyingLoading}
+              text={wallet ? (value ? 'Buy Ticket' : 'Spin Slots!') : 'Connect Wallet'}
             />
           </ButtonWrapper>
         </Section1>
         <Section2>
-          {isWallet && (
+          {wallet && (
             <div>
               <Divider />
               <TextButton
@@ -87,10 +127,14 @@ const MainPage = () => {
           )}
           <TableWrapper>
             <RoundText>Previous Round</RoundText>
-            <MainPreviousTable />
+            <MainPreviousTable raffled={raffled} />
           </TableWrapper>
         </Section2>
       </Wrapper>
+      {opened && <ConnectPopup />}
+      {openedSuccess && (
+        <SuccessPopup text={'You have successfully purchased a lottery ticket. Good luck!'} />
+      )}
     </>
   );
 };

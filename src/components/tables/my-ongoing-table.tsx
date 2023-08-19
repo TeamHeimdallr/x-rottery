@@ -6,7 +6,7 @@ import { DATE_FORMATTER } from '~/utils/time';
 
 import { FilledMediumButton } from '../buttons';
 import { SixNumbers } from '../six-numbers';
-import { newData } from './data';
+import { testerNewData } from './data';
 
 interface Props {
   raffled?: boolean;
@@ -14,7 +14,7 @@ interface Props {
 
 export const MyOngoingTable = ({ raffled }: Props) => {
   const navigate = useNavigate();
-  const onGoingData = raffled ? [] : [newData];
+  const onGoingData = raffled ? [] : [testerNewData];
 
   const header = [
     { value: 'Purchase Date', width: 160 },
@@ -35,6 +35,7 @@ export const MyOngoingTable = ({ raffled }: Props) => {
           {onGoingData?.length > 0 ? (
             onGoingData.map((row, index) => {
               const { number, purchaseDate } = row;
+              if (!purchaseDate) return;
               return (
                 <div key={index}>
                   <Divider />

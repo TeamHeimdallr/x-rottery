@@ -6,10 +6,11 @@ import { Gnb } from '~/components/gnb';
 import { MyOngoingTable, MyPreviousTable } from '~/components/tables';
 import { useWalletStore } from '~/states/wallet-info';
 
-// TODO : 촬영 시 dummy 값 변경
-const dummy = {
+// TODO : 촬영 시 testInfo 값 변경
+const testInfo = {
   drawDate: 'Monday, August 21, 2023', // 추첨날짜
   raffled: true, // 당첨 전과 후 표시
+  winning: false,
 };
 
 const MyPage = () => {
@@ -36,10 +37,10 @@ const MyPage = () => {
           <RoundWrapper>
             <RoundTitleWrapper>
               <RoundTitle>Ongoing Round</RoundTitle>
-              <DateText>{dummy.drawDate}</DateText>
+              <DateText>{testInfo.drawDate}</DateText>
             </RoundTitleWrapper>
             <TableWrapper>
-              <MyOngoingTable raffled={dummy.raffled} />
+              <MyOngoingTable raffled={testInfo.raffled} />
             </TableWrapper>
           </RoundWrapper>
           <RoundWrapper>
@@ -47,7 +48,7 @@ const MyPage = () => {
               <RoundTitle>Previous Round</RoundTitle>
             </RoundTitleWrapper>
             <TableWrapper>
-              <MyPreviousTable raffled={dummy.raffled} />
+              <MyPreviousTable raffled={testInfo.raffled} winning={testInfo.winning} />
             </TableWrapper>
           </RoundWrapper>
         </BodyWrapper>
