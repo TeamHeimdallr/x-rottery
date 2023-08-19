@@ -75,7 +75,6 @@ export const useSlotNumberAutoGenerator = () => {
       }
     }
     resetValue();
-    console.log('reset!');
   };
 
   return { tick, numbersRef, result, reset };
