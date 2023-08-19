@@ -2,11 +2,11 @@ import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 import tw, { css, styled } from 'twin.macro';
 
+import { useTicketStore } from '~/states/ticket-info';
 import { DATE_FORMATTER } from '~/utils/time';
 
 import { FilledMediumButton } from '../buttons';
 import { SixNumbers } from '../six-numbers';
-import { newData } from './data';
 
 interface Props {
   raffled?: boolean;
@@ -14,7 +14,8 @@ interface Props {
 
 export const MyOngoingTable = ({ raffled }: Props) => {
   const navigate = useNavigate();
-  const onGoingData = raffled ? [] : [newData];
+  const { ticket } = useTicketStore();
+  const onGoingData = raffled ? [] : [ticket];
 
   const header = [
     { value: 'Purchase Date', width: 160 },
@@ -32,9 +33,10 @@ export const MyOngoingTable = ({ raffled }: Props) => {
           ))}
         </THead>
         <TBody>
-          {onGoingData?.length > 0 ? (
+          {onGoingData?.length > 0 && !!ticket ? (
             onGoingData.map((row, index) => {
-              const { number, purchaseDate } = row;
+              const { number, purchaseDate } = row ?? {};
+              if (!purchaseDate || !number) return;
               return (
                 <div key={index}>
                   <Divider />

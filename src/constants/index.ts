@@ -63,6 +63,9 @@ export const SEED = [
   'F',
 ];
 
+// TODO : 당첨 전후로 변경하기
+export const RAFFLED = false;
+
 export const POPUP_ID = {
   SUCCESS: 'success',
   CONNECT: 'connect',

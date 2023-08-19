@@ -1,17 +1,14 @@
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes, MutableRefObject } from 'react';
 import tw, { css, styled } from 'twin.macro';
 
 import { COLOR } from '~/assets/colors';
 import slotNumberBg from '~/assets/images/slot-number-bg.png';
-import {
-  NUM_LENGTH,
-  useSlotNumberAutoGenerator,
-} from '~/hooks/pages/use-slot-number-auto-generate';
+import { NUM_LENGTH } from '~/hooks/pages/use-slot-number-auto-generate';
 
-interface Props extends HTMLAttributes<HTMLDivElement> {}
-export const SlotNumberAutoGenerator = ({ ...rest }: Props) => {
-  const { numbersRef } = useSlotNumberAutoGenerator();
-
+interface Props extends HTMLAttributes<HTMLDivElement> {
+  numbersRef: MutableRefObject<(HTMLDivElement | null)[]>;
+}
+export const SlotNumberAutoGenerator = ({ numbersRef, ...rest }: Props) => {
   return (
     <Wrapper style={{ backgroundImage: `url(${slotNumberBg})` }} {...rest}>
       {[...Array(NUM_LENGTH)].map((_, i) => (

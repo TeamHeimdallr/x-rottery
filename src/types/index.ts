@@ -14,3 +14,10 @@ export interface Wallet {
   publicKey: string;
   seed?: string;
 }
+export interface Round {
+  round: number;
+  number: string;
+  winner?: `r${string}`;
+  jackpot?: number;
+  purchaseDate?: string;
+}
