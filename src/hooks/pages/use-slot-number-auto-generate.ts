@@ -6,7 +6,7 @@ import { useSlotNumberAutoGeneratorStore } from '~/states/components/slot-number
 export const NUM_LENGTH = 6;
 
 export const useSlotNumberAutoGenerator = () => {
-  const { value, setValue, reset: resetValue, setIsLoading } = useSlotNumberAutoGeneratorStore();
+  const { value, setValue, reset: resetValue } = useSlotNumberAutoGeneratorStore();
 
   const delay = useRef<number>(1); // delay in ticks
   const tickCount = useRef<number>(10); // how many times it generates a number before moving on to the next
@@ -47,10 +47,8 @@ export const useSlotNumberAutoGenerator = () => {
 
     if (position.current < NUM_LENGTH) {
       requestAnimationFrame(tick);
-      setIsLoading(true);
     } else {
       // end
-      setIsLoading(false);
       const result = numbersRef.current.map(num => num?.innerHTML ?? '').join('');
       setValue(result.slice(0, 6));
       position.current = 0;
