@@ -66,7 +66,7 @@ export const ConnectPopup = () => {
               <CancelButton />
             </IconWrapper>
           </ConnectTitleWrapper>
-          <TextField placeholder="Enter your private key" onChange={e => setSeed(e.target.value)} />
+          <TextField placeholder="Enter your seed" onChange={e => setSeed(e.target.value)} />
         </ConnectWrapper>
 
         <ButtonWrapper>
