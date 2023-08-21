@@ -2,7 +2,6 @@ import { HTMLAttributes, MutableRefObject } from 'react';
 import tw, { css, styled } from 'twin.macro';
 
 import { COLOR } from '~/assets/colors';
-import slotNumberBg from '~/assets/images/slot-number-bg.png';
 import { NUM_LENGTH } from '~/hooks/pages/use-slot-number-auto-generate';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
@@ -10,7 +9,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 }
 export const SlotNumberAutoGenerator = ({ numbersRef, ...rest }: Props) => {
   return (
-    <Wrapper style={{ backgroundImage: `url(${slotNumberBg})` }} {...rest}>
+    <Wrapper {...rest}>
       {[...Array(NUM_LENGTH)].map((_, i) => (
         <TextWrapper key={i}>
           <Text ref={ref => numbersRef.current.push(ref)}>?</Text>

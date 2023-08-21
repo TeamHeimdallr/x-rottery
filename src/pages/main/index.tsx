@@ -3,9 +3,8 @@ import { useEffect, useState } from 'react';
 import tw, { css, styled } from 'twin.macro';
 import { Client, Wallet, xrpToDrops } from 'xrpl';
 
+import manualBg from '~/assets/images/manual-bg.png';
 import slotBg from '~/assets/images/slot-bg.png';
-import slotEffect1 from '~/assets/images/slot-effect-1.png';
-import slotEffect2 from '~/assets/images/slot-effect-2.png';
 import { FilledLargeButton, TextButton } from '~/components/buttons';
 import { Gnb } from '~/components/gnb';
 import { ConnectPopup } from '~/components/popups/connect-popup';
@@ -33,7 +32,7 @@ const MainPage = () => {
   const [price, setPrice] = useState(RAFFLED ? 0 : 1000);
 
   const { wallet, balance, reset: disconnect } = useWalletStore();
-  const { opened } = usePopup(POPUP_ID.CONNECT);
+  const { opened, open } = usePopup(POPUP_ID.CONNECT);
   const { opened: openedSuccess, open: openSuccess } = usePopup(POPUP_ID.SUCCESS);
   const { setTicket } = useTicketStore();
 
@@ -76,7 +75,10 @@ const MainPage = () => {
   };
 
   const handleClick = async () => {
-    if (!wallet) return;
+    if (!wallet) {
+      open();
+      return;
+    }
     if (value) {
       await buyTicket();
       return;
@@ -99,51 +101,44 @@ const MainPage = () => {
           xrpBalance={balance}
           disconnect={disconnect}
         />
-        <Section1>
-          <Article>
+        <ContentWrapper>
+          <Section1>
             <TitleWrapper>
               <TitleText>estimated jackpot</TitleText>
               <JackpotText>{parseNumberWithComma(price)} XRP</JackpotText>
               <DateText>Draw Date:Friday, July 28, 2023</DateText>
             </TitleWrapper>
-          </Article>
-          <SlotEffect isBackground src={slotBg} />
-          {!manualized && (
-            <>
-              <SlotEffect src={slotEffect1} />
-              <SlotEffect secondEffect src={slotEffect2} />
-            </>
-          )}
-          <SlotWrapper>
-            {manualized ? (
-              <SlotNumberManualInput />
-            ) : (
-              <SlotNumberAutoGenerator numbersRef={numbersRef} />
-            )}
-          </SlotWrapper>
-          <ButtonWrapper>
-            <FilledLargeButton
-              onClick={handleClick}
-              isLoading={isLoading || buyingLoading}
-              text={wallet ? (value ? 'Buy Ticket' : 'Spin Slots!') : 'Connect Wallet'}
-            />
-          </ButtonWrapper>
-        </Section1>
-        <Section2>
-          {wallet && (
-            <div>
-              <Divider />
-              <TextButton
-                onClick={() => manualize(prev => !prev)}
-                text={manualized ? 'Spin Slots' : 'Enter Manually'}
+            <SlotEffect src={manualized ? manualBg : slotBg} />
+            <SlotWrapper>
+              {manualized ? (
+                <SlotNumberManualInput />
+              ) : (
+                <SlotNumberAutoGenerator numbersRef={numbersRef} />
+              )}
+            </SlotWrapper>
+            <ButtonWrapper>
+              <FilledLargeButton
+                onClick={handleClick}
+                isLoading={isLoading || buyingLoading}
+                text={wallet ? (value ? 'Buy Ticket' : 'Spin Slots!') : 'Connect Wallet'}
               />
-            </div>
-          )}
-          <TableWrapper>
-            <RoundText>Previous Round</RoundText>
-            <MainPreviousTable raffled={RAFFLED} />
-          </TableWrapper>
-        </Section2>
+            </ButtonWrapper>
+          </Section1>
+          <Section2>
+            <ModeButtonWrapper>
+              {wallet && (
+                <TextButton
+                  onClick={() => manualize(prev => !prev)}
+                  text={manualized ? 'Spin Slots' : 'Enter Manually'}
+                />
+              )}
+            </ModeButtonWrapper>
+            <TableWrapper>
+              <RoundText>Previous Round</RoundText>
+              <MainPreviousTable raffled={RAFFLED} />
+            </TableWrapper>
+          </Section2>
+        </ContentWrapper>
       </Wrapper>
       {opened && <ConnectPopup />}
       {openedSuccess && (
@@ -157,30 +152,30 @@ const MainPage = () => {
 };
 
 const Wrapper = tw.div`
-  w-full flex flex-col items-center
-  relative 
+  w-full flex flex-col items-center relative
 `;
 
-const Section1 = tw.section`
-  mt-90 w-1440 min-h-810 bg-center bg-cover bg-no-repeat flex flex-col relative
+const ContentWrapper = tw.div`
+  absolute top-20 bg-black
+`;
+
+const Section1 = tw.div`
+  w-1440 min-h-750 bg-center bg-cover bg-no-repeat flex flex-col
   flex flex-col justify-between
 `;
 
-const Section2 = tw.section`
-  w-1440 min-h-810 h-full pb-196
+const Section2 = tw.div`
+  w-1440 h-full pb-196
   flex flex-col items-center gap-120
 `;
 
 const SlotWrapper = tw.div`
   flex flex-center absolute
-  top-400 inset-x-1/2
+  top-340 inset-x-1/2
 `;
 
-const Article = tw.article`
-  flex flex-col gap-10 relative z-1
-`;
 const TitleWrapper = tw.div`
-  flex flex-col flex-center
+  flex flex-col flex-center z-1 mt-70
   py-24 px-50
 `;
 
@@ -212,19 +207,9 @@ const RoundText = styled.div(() => [
 const TableWrapper = tw.div`
   flex flex-col gap-40
 `;
-const Divider = tw.div`
-  mt-4
-`;
 
-interface Props {
-  secondEffect?: boolean;
-  isBackground?: boolean;
-}
+const SlotEffect = styled.img(() => [tw`h-750 absolute top-0 object-cover`]);
 
-const SlotEffect = styled.img<Props>(({ secondEffect, isBackground }) => [
-  tw`absolute z-0`,
-  secondEffect && tw`w-1440 h-810`,
-  isBackground && tw`w-1440 h-810`,
-]);
+const ModeButtonWrapper = tw.div`h-22`;
 
 export default MainPage;
