@@ -13,16 +13,16 @@ export const previousData: Round[] = [
   {
     round: 1,
     number: '0A1B2C',
-    jackpot: 9999999,
-    purchaseDate: '2023-08-10 13:12:57',
+    jackpot: 100000,
+    purchaseDate: '2023-08-14 20:44:12',
   },
   {
     round: 1,
     number: '83DD00',
-    purchaseDate: '2023-08-09 20:44:12',
+    purchaseDate: '2023-08-14 13:12:57',
   },
 ];
 
 export const previousWinningData: Round[] = [
-  { round: 1, number: '0A1B2C', winner: `r3kmLJN5D28dHuH8vZNUZpMC43pEHpaocV`, jackpot: 9999999 },
+  { round: 1, number: '0A1B2C', winner: `ra2ev63Q2sKKUNZB95NgFW165QUKGiXCqr`, jackpot: 100000 },
 ];

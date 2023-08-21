@@ -22,8 +22,7 @@ import { useWalletStore } from '~/states/wallet-info';
 import { parseNumberWithComma } from '~/utils/number';
 import { DATE_FORMATTER } from '~/utils/time';
 
-// TODO : deposit 1000으로 수정 owner_address 수정
-const DEPOSIT = 1;
+const DEPOSIT = 1000;
 const OWNER_ADDRESS = 'rPucpCcAQH6mjJrL6PS4Cot2dD2WLoeZkA';
 
 const MainPage = () => {
@@ -67,7 +66,7 @@ const MainPage = () => {
     setBuyingLoading(false);
     client.disconnect();
     openSuccess();
-    setPrice(prev => prev + 1000);
+
     setTicket({
       round: 2,
       number: value,
@@ -148,7 +147,10 @@ const MainPage = () => {
       </Wrapper>
       {opened && <ConnectPopup />}
       {openedSuccess && (
-        <SuccessPopup text={'You have successfully purchased a lottery ticket. Good luck!'} />
+        <SuccessPopup
+          text={'You have successfully purchased a lottery ticket. Good luck!'}
+          onClick={() => setPrice(prev => prev + 1000)}
+        />
       )}
     </>
   );
