@@ -10,7 +10,7 @@ XRottery is the first GameFi 🎮 built using Hooks on the XRP ledger. Spin the 
 
 We built the gorgeous Hooks code from scratch! Let's enjoy the code 🍽  
 
-[**Github Link 👨‍💻**](https://github.com/TeamHeimdallr/x-rottery/blob/dev/x-rottery-hooks.c)
+[**Hooks Code Link 👨‍💻**](https://github.com/TeamHeimdallr/x-rottery/blob/dev/x-rottery-hooks.c)
 
 ## 🔑 Service Screenshots
 
