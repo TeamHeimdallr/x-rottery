@@ -1,1 +1,1 @@
-# TEAM HEIMDALLR REACT VITE POLIERPLATE
+# XRottery, where your Jackpot Spin Awaits !
