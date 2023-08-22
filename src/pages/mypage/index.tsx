@@ -58,7 +58,7 @@ const MyPage = () => {
 };
 
 const Wrapper = tw.div`
-  w-full h-full flex flex-col flex-center bg-black overflow-y-auto relative
+  w-full h-full flex flex-col flex-center bg-black overflow-y-auto relative min-h-screen
 `;
 const PageWrapper = tw.div`
   w-full h-full flex flex-col pt-160 max-w-720 gap-40
