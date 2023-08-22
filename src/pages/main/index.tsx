@@ -156,7 +156,7 @@ const Wrapper = tw.div`
 `;
 
 const ContentWrapper = tw.div`
-  absolute top-20 bg-black
+  absolute top-20 bg-black w-full flex-center flex-col
 `;
 
 const Section1 = tw.div`
